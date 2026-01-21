@@ -1,0 +1,142 @@
+package com.dongah.fastcharger.pages;
+
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import com.dongah.fastcharger.MainActivity;
+import com.dongah.fastcharger.R;
+import com.dongah.fastcharger.basefunction.UiSeq;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Objects;
+
+/**
+ * A simple {@link Fragment} subclass.
+ * Use the {@link MessageYesNoFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class MessageYesNoFragment extends Fragment implements View.OnClickListener {
+
+    private static final Logger logger = LoggerFactory.getLogger(MessageYesNoFragment.class);
+
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+    private static final String CHANNEL = "CHANNEL";
+
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
+    private int mChannel;
+
+    TextView txtMessage;
+    Button btnCancel, btnConfirm;
+    ImageView imgStopWait;
+    ObjectAnimator object;
+
+    public MessageYesNoFragment() {
+        // Required empty public constructor
+    }
+
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment MessageYesNoFragment.
+     */
+    // TODO: Rename and change types and number of parameters
+    public static MessageYesNoFragment newInstance(String param1, String param2) {
+        MessageYesNoFragment fragment = new MessageYesNoFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+            mChannel = getArguments().getInt(CHANNEL);
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_message_yes_no, container, false);
+        txtMessage = view.findViewById(R.id.txtMessage);
+        btnCancel = view.findViewById(R.id.btnCancel);
+        btnCancel.setOnClickListener(this);
+        btnConfirm = view.findViewById(R.id.btnConfirm);
+        btnConfirm.setOnClickListener(this);
+        imgStopWait = view.findViewById(R.id.imgStopWait);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+//        MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity.mContext, R.raw.messageyesno);
+//        mediaPlayer.setOnCompletionListener(MediaPlayer::release);
+//        mediaPlayer.start();
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    @Override
+    public void onClick(@NonNull View v) {
+        int getId = v.getId();
+        try {
+            if (Objects.equals(getId, R.id.btnCancel)) {
+                ((MainActivity) getActivity()).getClassUiProcess(mChannel).setUiSeq(UiSeq.CHARGING);
+                ((MainActivity) getActivity()).getFragmentChange().onFragmentChange(mChannel, UiSeq.CHARGING, "CHARGING", null);
+            } else if (Objects.equals(getId, R.id.btnConfirm)) {
+                ((MainActivity) getActivity()).getChargingCurrentData().setUserStop(true);
+                ((MainActivity) getActivity()).getControlBoard().getTxData(mChannel).setStop(true);
+                ((MainActivity) getActivity()).getControlBoard().getTxData(mChannel).setStart(false);
+                txtMessage.setText(R.string.stoppingMessage);
+                imgStopWait.setVisibility(View.VISIBLE);
+                btnConfirm.setVisibility(View.INVISIBLE);
+                btnCancel.setVisibility(View.INVISIBLE);
+                object = ObjectAnimator.ofFloat(imgStopWait, "Alpha", 1.0f, 0.2f);
+                object.setInterpolator(new LinearInterpolator());
+                object.setDuration(1500);
+                object.setRepeatCount(ValueAnimator.INFINITE);
+                object.start();
+            }
+
+        } catch (Exception e) {
+            logger.error("MessageYesNoFragment  onClick : {} ", e.getMessage());
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        if (object != null) {
+            object.cancel();
+            object = null;
+        }
+    }
+}
