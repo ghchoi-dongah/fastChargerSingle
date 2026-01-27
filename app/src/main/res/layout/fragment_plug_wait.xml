@@ -6,39 +6,51 @@
     android:layout_height="676dp"
     tools:context=".pages.PlugWaitFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/txtMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:gravity="center_horizontal"
         android:text="@string/couplerMessage"
         android:textSize="42sp"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="50dp"
+        android:textColor="@color/black"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/imgInlet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/inlet1"
-        android:layout_marginTop="120dp"
-        app:layout_constraintTop_toBottomOf="@+id/txtMessage"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:ignore="ContentDescription" />
+<!--    <ImageView-->
+<!--        android:id="@+id/imgInlet"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:src="@drawable/inlet1"-->
+<!--        android:layout_marginTop="120dp"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/txtMessage"-->
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        app:layout_constraintRight_toRightOf="parent"-->
+<!--        tools:ignore="ContentDescription" />-->
 
-    <ImageView
-        android:id="@+id/imgPlugConnector"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/step1"
-        android:layout_marginTop="120dp"
-        app:layout_constraintTop_toBottomOf="@+id/txtMessage"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:ignore="ContentDescription" />
+<!--    <ImageView-->
+<!--        android:id="@+id/imgPlugConnector"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@drawable/step1"-->
+<!--        android:layout_marginTop="120dp"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/txtMessage"-->
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        app:layout_constraintRight_toRightOf="parent"-->
+<!--        tools:ignore="ContentDescription" />-->
+
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/avi"
+        android:layout_width="220dp"
+        android:layout_height="220dp"
+        android:visibility="visible"
+        app:indicatorName="BallSpinFadeLoaderIndicator"
+        app:indicatorColor="@color/primary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

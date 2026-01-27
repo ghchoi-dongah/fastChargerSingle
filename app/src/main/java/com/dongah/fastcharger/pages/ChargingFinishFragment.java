@@ -20,6 +20,7 @@ import com.dongah.fastcharger.TECH3800.TLS3800;
 import com.dongah.fastcharger.basefunction.ChargingCurrentData;
 import com.dongah.fastcharger.basefunction.ClassUiProcess;
 import com.dongah.fastcharger.utils.SharedModel;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +50,7 @@ public class ChargingFinishFragment extends Fragment implements View.OnClickList
 
     Button btnStopConfirm;
     TextView txtPrepayment, txtPaymentReturn, txtActualPayment, txtChargeTime, txtAmountOfCharge, txtSoc;
+    CircularProgressIndicator progressCircular;
 
     ClassUiProcess classUiProcess;
     ChargingCurrentData chargingCurrentData;
@@ -96,7 +98,6 @@ public class ChargingFinishFragment extends Fragment implements View.OnClickList
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_charging_finish, container, false);
         sharedModel = new ViewModelProvider(requireActivity()).get(SharedModel.class);
         requestStrings[0] = String.valueOf(mChannel);
@@ -111,6 +112,7 @@ public class ChargingFinishFragment extends Fragment implements View.OnClickList
         txtAmountOfCharge = view.findViewById(R.id.txtAmountOfCharge);
         btnStopConfirm = view.findViewById(R.id.btnStopConfirm);
         btnStopConfirm.setOnClickListener(this);
+        progressCircular = view.findViewById(R.id.progressCircular);
         return view;
     }
 
@@ -120,6 +122,7 @@ public class ChargingFinishFragment extends Fragment implements View.OnClickList
         super.onViewCreated(view, savedInstanceState);
         try {
             //unplug check 후 초기 화면
+            progressCircular.isIndeterminate();
             uiCheckHandler = new Handler();
             uiCheckHandler.postDelayed(new Runnable() {
                 @Override
@@ -140,6 +143,7 @@ public class ChargingFinishFragment extends Fragment implements View.OnClickList
                         chargingCurrentData.setPartialCancelPayment((int)(chargingCurrentData.getPrePayment() - chargingCurrentData.getPowerMeterUsePay()));
                     }
                     txtSoc.setText(((MainActivity) MainActivity.mContext).getChargingCurrentData().getSoc() + "%");
+                    progressCircular.setProgress(((MainActivity) MainActivity.mContext).getChargingCurrentData().getSoc(), true);
                     txtPrepayment.setText(payFormatter.format(chargingCurrentData.getPrePayment()) + " 원");
                     txtPaymentReturn.setText(payFormatter.format(chargingCurrentData.getPartialCancelPayment()) + " 원");
                     txtActualPayment.setText(payFormatter.format(chargingCurrentData.getPowerMeterUsePay()) + " 원");

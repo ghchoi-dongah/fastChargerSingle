@@ -6,54 +6,66 @@
     android:layout_height="676dp"
     tools:context=".pages.MessageYesNoFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/txtMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/stopMessage"
         android:textSize="44sp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="40dp"
         android:gravity="center_horizontal"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/imgStopWait"
-        android:layout_width="400dp"
+<!--    <ImageView-->
+<!--        android:id="@+id/imgStopWait"-->
+<!--        android:layout_width="400dp"-->
+<!--        android:layout_height="220dp"-->
+<!--        android:src="@drawable/img_charging_stop"-->
+<!--        android:visibility="invisible"-->
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintRight_toRightOf="parent"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        tools:ignore="ContentDescription" />-->
+
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/avi"
+        android:layout_width="220dp"
         android:layout_height="220dp"
-        android:src="@drawable/img_charging_stop"
         android:visibility="invisible"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:indicatorName="BallSpinFadeLoaderIndicator"
+        app:indicatorColor="@color/primary"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:ignore="ContentDescription" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/btnCancel"
-        android:layout_width="300dp"
+        android:layout_width="340dp"
         android:layout_height="100dp"
-        android:text="@string/btn_Cancel"
-        app:backgroundTint="@null"
-        android:textSize="38sp"
         android:layout_marginTop="200dp"
-        android:layout_marginStart="150dp"
-        android:background="@drawable/rounded_white_button"
+        android:layout_marginStart="142dp"
+        android:text="@string/btn_Cancel"
+        android:textSize="38sp"
+        android:textColor="@color/primary"
+        android:background="@drawable/selector_default_btn"
+        app:backgroundTint="@null"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txtMessage" />
 
     <Button
         android:id="@+id/btnConfirm"
-        android:layout_width="300dp"
+        android:layout_width="340dp"
         android:layout_height="100dp"
-        android:text="@string/btn_confirm_w"
-        app:backgroundTint="@null"
+        android:layout_marginStart="60dp"
+        android:text="@string/btn_confirm_text"
         android:textSize="38sp"
-        android:layout_marginStart="80dp"
-        android:background="@drawable/rounded_blue_button"
+        android:textColor="@color/white"
+        android:background="@drawable/shape_btn_blue"
+        app:backgroundTint="@null"
         app:layout_constraintLeft_toRightOf="@id/btnCancel"
         app:layout_constraintTop_toTopOf="@id/btnCancel" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

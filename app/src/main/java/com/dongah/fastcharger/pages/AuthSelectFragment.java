@@ -1,5 +1,6 @@
 package com.dongah.fastcharger.pages;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -51,9 +52,7 @@ public class AuthSelectFragment extends Fragment implements View.OnClickListener
     private String mParam2;
     private int mChannel;
 
-    FrameLayout frameMember, frameNoMember;
-    ImageView imageViewMemberCheck, imageViewNoMemberCheck;
-
+    View viewMember, viewNoMember;
     TextView textViewMemberUnitInput, textViewNoMemberUnitInput;
     ChargingCurrentData chargingCurrentData;
     Handler uiCheckHandler;
@@ -95,12 +94,12 @@ public class AuthSelectFragment extends Fragment implements View.OnClickListener
         }
     }
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressWarnings("ConstantConditions")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_auth_select, container, false);
         sharedModel = new ViewModelProvider(requireActivity()).get(SharedModel.class);
         chargingCurrentData = ((MainActivity) getActivity()).getChargingCurrentData();
@@ -108,26 +107,24 @@ public class AuthSelectFragment extends Fragment implements View.OnClickListener
         socketReceiveMessage = ((MainActivity) MainActivity.mContext).getSocketReceiveMessage();
         textViewMemberUnitInput = view.findViewById(R.id.textViewMemberUnitInput);
         textViewNoMemberUnitInput = view.findViewById(R.id.textViewNoMemberUnitInput);
-        imageViewMemberCheck = view.findViewById(R.id.imageViewMemberCheck);
-        imageViewNoMemberCheck = view.findViewById(R.id.imageViewNoMemberCheck);
 
-        //사용 단가 갖도 오기
+        viewMember = view.findViewById(R.id.viewMember);
+        viewMember.setOnClickListener(this);
+        viewNoMember = view.findViewById(R.id.viewNoMember);
+        viewNoMember.setOnClickListener(this);
+
+        //사용 단가 갖고 오기
         try {
             TariffFileUpdater tariffFileUpdater = new TariffFileUpdater();
             String memberPrice = tariffFileUpdater.getPrice("A").replace(".0","");
             String nonPrice = tariffFileUpdater.getPrice("B").replace(".0","");
-            textViewMemberUnitInput.setText(String.format("   :  %s 원", memberPrice));
-            textViewNoMemberUnitInput.setText(String.format("   :  %s 원", nonPrice));
+            textViewMemberUnitInput.setText(getString(R.string.chargeUnitFormat, String.valueOf(memberPrice)));
+            textViewNoMemberUnitInput.setText(getString(R.string.chargeUnitFormat, String.valueOf(nonPrice)));
             aUnitPrice = Double.parseDouble(memberPrice);
             bUnitPrice = Double.parseDouble(nonPrice);
         } catch (Exception e) {
             logger.error(" price error : {}", e.getMessage());
         }
-
-        frameMember = view.findViewById(R.id.frameMember);
-        frameMember.setOnClickListener(this);
-        frameNoMember = view.findViewById(R.id.frameNoMember);
-        frameNoMember.setOnClickListener(this);
 
         return view;
     }
@@ -138,7 +135,6 @@ public class AuthSelectFragment extends Fragment implements View.OnClickListener
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         try {
-
             uiCheckHandler = new Handler();
             uiCheckHandler.postDelayed(new Runnable() {
                 @Override
@@ -156,15 +152,13 @@ public class AuthSelectFragment extends Fragment implements View.OnClickListener
     public void onClick(View v) {
         try {
             int getId = v.getId();
-            if (Objects.equals(getId, R.id.frameMember)) {
-                imageViewMemberCheck.setBackgroundResource(R.drawable.checked);
+            if (Objects.equals(getId, R.id.viewMember)) {
                 chargingCurrentData.setPaymentType(PaymentType.MEMBER);
                 chargingCurrentData.setPowerUnitPrice(aUnitPrice);
                 ((MainActivity) MainActivity.mContext).getClassUiProcess(mChannel).setUiSeq(UiSeq.MEMBER_CARD);
                 ((MainActivity) MainActivity.mContext).getFragmentChange().onFragmentChange(mChannel,UiSeq.MEMBER_CARD, "MEMBER_CARD", null);
-            } else if (Objects.equals(getId, R.id.frameNoMember)) {
+            } else if (Objects.equals(getId, R.id.viewNoMember)) {
                 GlobalVariables.setHumaxUserType("B");
-                imageViewNoMemberCheck.setBackgroundResource(R.drawable.checked);
                 chargingCurrentData.setPaymentType(PaymentType.CREDIT);
                 chargingCurrentData.setPowerUnitPrice(bUnitPrice);
                 ((MainActivity) MainActivity.mContext).getClassUiProcess(mChannel).setUiSeq(UiSeq.CREDIT_CARD);

@@ -60,9 +60,8 @@ public class InitFragment extends Fragment implements View.OnClickListener {
     ChargerConfiguration chargerConfiguration;
     ChargingCurrentData chargingCurrentData;
     Animation animBlink;
-    TextView txtInitMessage, txtMemberUnitInput;
-    ImageView btnInit, imageCheck, imgComboGlow;
-    LinearLayoutCompat linearLayout;
+    View viewCircle;
+    TextView txtMemberUnitInput, textViewStartMessage, textViewInitMessage;
     SharedModel sharedModel;
     String[] requestStrings = new String[1];
     Handler unitPriceHandler;
@@ -104,21 +103,14 @@ public class InitFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_init, container, false);
-        txtInitMessage = view.findViewById(R.id.txtInitMessage);
-        imgComboGlow = view.findViewById(R.id.imgComboGlow);
-        imageCheck = view.findViewById(R.id.bgCheck);
-        linearLayout = view.findViewById(R.id.linearLayout);
-        linearLayout.setOnClickListener(this);
         txtMemberUnitInput = view.findViewById(R.id.txtMemberUnitInput);
         animBlink = AnimationUtils.loadAnimation(getActivity(), R.anim.blink);
-        txtInitMessage.startAnimation(animBlink);
-        imgComboGlow.startAnimation(animBlink);
-        txtInitMessage.setOnClickListener(this);
-        btnInit = view.findViewById(R.id.btnInit);
-        btnInit.setOnClickListener(this);
-
+        viewCircle = view.findViewById(R.id.viewCircle);
+        viewCircle.setOnClickListener(this);
+        textViewStartMessage = view.findViewById(R.id.textViewStartMessage);
+        textViewInitMessage = view.findViewById(R.id.textViewInitMessage);
+        textViewInitMessage.startAnimation(animBlink);
         return view;
     }
 
@@ -134,7 +126,7 @@ public class InitFragment extends Fragment implements View.OnClickListener {
             if (onUnitPrice()) {
                 try {
                     String newPrice = tariffFileUpdater.getPrice("A").replace(".0","");
-                    txtMemberUnitInput.setText(getString(R.string.memChargingUnit) + String.format(" %s 원", newPrice));
+                    txtMemberUnitInput.setText(getString(R.string.chargeUnitFormat, String.valueOf(newPrice)));
                 } catch (Exception e) {
                     logger.error(" getPrice error : {}", e.getMessage());
                 }
@@ -153,13 +145,13 @@ public class InitFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         try {
-            int id = v.getId();
             // 초기 화면 으로 전환이 된 경우, current data clear
             chargerConfiguration = ((MainActivity) MainActivity.mContext).getChargerConfiguration();
             chargingCurrentData = ((MainActivity) MainActivity.mContext).getChargingCurrentData();
             chargingCurrentData.onCurrentDataClear();
             chargingCurrentData.setConnectorId(mChannel + 1);
 
+            if (!Objects.equals(v.getId(), R.id.viewCircle)) return;
             if (Objects.equals(chargerConfiguration.getAuthMode(), "0")) {
                 try {
                     if (!onUnitPrice() ) {
@@ -237,7 +229,7 @@ public class InitFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void run() {
                         try {
-                            //사용 단가 갖도 오기
+                            //사용 단가 갖고 오기
                             String newPrice = tariffFileUpdater.getPrice("A").replace(".0","");
                             txtMemberUnitInput.setText(getString(R.string.memChargingUnit) + String.format(" %s 원", newPrice));
                             chargingCurrentData.setPowerUnitPrice(Double.parseDouble(newPrice));

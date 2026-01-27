@@ -19,26 +19,65 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imgMemberWaiting_bg"
+        android:id="@+id/imageViewMemberFailed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/membership_loading_bg"
-        android:layout_marginTop="100dp"
-        app:layout_constraintTop_toBottomOf="@+id/txtMemberWaiting"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:ignore="ContentDescription" />
+        android:layout_marginTop="80dp"
+        android:background="@drawable/auth_error"
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@id/txtMemberWaiting"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="contentDescription" />
 
-    <ImageView
-        android:id="@+id/imgMemberSpinner"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:background="@drawable/loading01"
-        android:layout_marginStart="208dp"
-        android:layout_marginTop="25dp"
-        app:layout_constraintLeft_toLeftOf="@+id/imgMemberWaiting_bg"
-        app:layout_constraintTop_toTopOf="@id/imgMemberWaiting_bg"
-        tools:ignore="ContentDescription" />
+    <TextView
+        android:id="@+id/textViewFailed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="!"
+        android:textSize="60sp"
+        android:textColor="#9A0C0C"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="@id/imageViewMemberFailed"
+        app:layout_constraintEnd_toEndOf="@id/imageViewMemberFailed"
+        app:layout_constraintTop_toTopOf="@id/imageViewMemberFailed"
+        tools:ignore="contentDescription"/>
+
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/avi"
+        android:layout_width="220dp"
+        android:layout_height="220dp"
+        android:visibility="visible"
+        app:indicatorName="BallSpinFadeLoaderIndicator"
+        app:indicatorColor="@color/primary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+<!--    <ImageView-->
+<!--        android:id="@+id/imgMemberWaiting_bg"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:src="@drawable/membership_loading_bg"-->
+<!--        android:layout_marginTop="100dp"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/txtMemberWaiting"-->
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        app:layout_constraintRight_toRightOf="parent"-->
+<!--        tools:ignore="ContentDescription" />-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/imgMemberSpinner"-->
+<!--        android:layout_width="80dp"-->
+<!--        android:layout_height="80dp"-->
+<!--        android:background="@drawable/loading01"-->
+<!--        android:layout_marginStart="208dp"-->
+<!--        android:layout_marginTop="25dp"-->
+<!--        app:layout_constraintLeft_toLeftOf="@+id/imgMemberWaiting_bg"-->
+<!--        app:layout_constraintTop_toTopOf="@id/imgMemberWaiting_bg"-->
+<!--        tools:ignore="ContentDescription" />-->
 
     <Button
         android:id="@+id/btnConfirm"
@@ -50,9 +89,9 @@
         android:layout_marginTop="40dp"
         android:visibility="invisible"
         android:background="@drawable/selector_default_btn"
-        app:layout_constraintLeft_toLeftOf="@id/imgMemberWaiting_bg"
-        app:layout_constraintRight_toRightOf="@id/imgMemberWaiting_bg"
-        app:layout_constraintTop_toBottomOf="@id/imgMemberWaiting_bg" />
+        app:layout_constraintLeft_toLeftOf="@id/avi"
+        app:layout_constraintRight_toRightOf="@id/avi"
+        app:layout_constraintTop_toBottomOf="@id/avi" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

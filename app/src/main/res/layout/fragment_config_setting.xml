@@ -7,14 +7,13 @@
     android:orientation="horizontal"
     tools:context=".pages.ConfigSettingFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/txtChargerType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/txtChargerType"
         android:layout_marginStart="80dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="10dp"
         android:textSize="18sp"
         android:textColor="@color/black"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -22,11 +21,13 @@
 
     <Spinner
         android:id="@+id/spinnerChargerType"
-        android:layout_width="300dp"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:dropDownWidth="300dp"
         android:spinnerMode="dropdown"
+        android:theme="@style/SpinnerTheme"
+        android:background="@drawable/spinner_background"
         app:layout_constraintLeft_toRightOf="@id/txtChargerType"
         app:layout_constraintTop_toTopOf="@id/txtChargerType" />
 
@@ -44,11 +45,13 @@
 
     <Spinner
         android:id="@+id/spinnerChargerModel"
-        android:layout_width="250dp"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:dropDownWidth="300dp"
         android:spinnerMode="dropdown"
+        android:theme="@style/SpinnerTheme"
+        android:background="@drawable/spinner_background"
         app:layout_constraintLeft_toRightOf="@id/txtModel"
         app:layout_constraintTop_toTopOf="@id/txtModel" />
 
@@ -65,7 +68,7 @@
 
     <EditText
         android:id="@+id/editChargerId"
-        android:layout_width="200dp"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_edit_text_disenable"
         android:textColor="#000000"
@@ -92,7 +95,7 @@
 
     <EditText
         android:id="@+id/editHttpURL"
-        android:layout_width="300dp"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_edit_text_focus"
         android:textColor="#000000"
@@ -117,7 +120,7 @@
 
     <EditText
         android:id="@+id/editServerUrl"
-        android:layout_width="300dp"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_edit_text_focus"
         android:textColor="#000000"
@@ -142,7 +145,7 @@
 
     <EditText
         android:id="@+id/editServerPort"
-        android:layout_width="120dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_edit_text_disenable"
         android:textColor="#000000"
@@ -245,7 +248,7 @@
 
     <EditText
         android:id="@+id/editDR"
-        android:layout_width="120dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_edit_text_focus"
         android:textColor="#000000"
@@ -270,7 +273,7 @@
 
     <EditText
         android:id="@+id/editTestPrice"
-        android:layout_width="120dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_edit_text_focus"
         android:textColor="#000000"
@@ -398,7 +401,7 @@
         android:id="@+id/txtVendorCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="130dp"
+        android:layout_marginStart="110dp"
         android:text="@string/txtVendorCode"
         android:textSize="18sp"
         android:textColor="@color/black"
@@ -407,7 +410,7 @@
 
     <EditText
         android:id="@+id/editVendorCode"
-        android:layout_width="200dp"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_edit_text_focus"
         android:textColor="#000000"
@@ -432,7 +435,7 @@
 
     <EditText
         android:id="@+id/editMid"
-        android:layout_width="200dp"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_edit_text_focus"
         android:textColor="#000000"
@@ -457,7 +460,7 @@
 
     <EditText
         android:id="@+id/editSerial"
-        android:layout_width="200dp"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_edit_text_focus"
         android:textColor="#000000"
@@ -482,7 +485,7 @@
 
     <EditText
         android:id="@+id/editFirmware"
-        android:layout_width="200dp"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_edit_text"
         android:textColor="#000000"
@@ -664,7 +667,7 @@
 
     <EditText
         android:id="@+id/editStatusNotificationDelay"
-        android:layout_width="100dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_edit_text"
         android:textColor="#000000"
@@ -690,7 +693,7 @@
 
     <EditText
         android:id="@+id/editTargetSoc"
-        android:layout_width="100dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_edit_text_focus"
         android:textColor="#000000"
@@ -716,7 +719,7 @@
 
     <EditText
         android:id="@+id/editTargetChargingTime"
-        android:layout_width="100dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_edit_text_focus"
         android:textColor="#000000"
@@ -752,41 +755,42 @@
 
     <Button
         android:id="@+id/btnConfigSave"
-        android:layout_width="150dp"
+        android:layout_width="240dp"
         android:layout_height="100dp"
-        android:layout_marginStart="300dp"
+        android:layout_marginStart="132dp"
         android:layout_marginTop="560dp"
-        android:background="@drawable/selector_admin_btn"
         android:text="@string/btnConfigSave"
         android:textSize="36sp"
         android:textColor="@color/white"
+        android:background="@drawable/shape_btn_blue"
         app:backgroundTint="@null"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnConfigExit"
-        android:layout_width="150dp"
+        android:layout_width="240dp"
         android:layout_height="100dp"
-        android:text="@string/btnConfigExit"
-        android:textColor="@color/teal_700"
-        app:backgroundTint="@null"
-        android:textSize="36sp"
-        android:background="@drawable/selector_option_btn"
         android:layout_marginStart="30dp"
+        android:text="@string/btnConfigExit"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:textColor="@color/primary"
+        android:background="@drawable/selector_default_btn"
+        app:backgroundTint="@null"
         app:layout_constraintTop_toTopOf="@id/btnConfigSave"
         app:layout_constraintLeft_toRightOf="@id/btnConfigSave" />
 
     <Button
         android:id="@+id/btnPowerOff"
-        android:layout_width="170dp"
+        android:layout_width="240dp"
         android:layout_height="100dp"
+        android:layout_marginStart="30dp"
         android:text="@string/btnPowerOff"
         android:textColor="@color/white"
-        app:backgroundTint="@null"
         android:textSize="36sp"
-        android:background="@drawable/selector_stop_btn"
-        android:layout_marginStart="30dp"
+        android:background="@drawable/shape_btn_red"
+        app:backgroundTint="@null"
         app:layout_constraintTop_toTopOf="@id/btnConfigExit"
         app:layout_constraintLeft_toRightOf="@id/btnConfigExit" />
 

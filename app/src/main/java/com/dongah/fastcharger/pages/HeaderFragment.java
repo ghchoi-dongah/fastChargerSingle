@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +20,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.dongah.fastcharger.MainActivity;
 import com.dongah.fastcharger.R;
+import com.dongah.fastcharger.basefunction.ChargerConfiguration;
 import com.dongah.fastcharger.basefunction.UiSeq;
 import com.dongah.fastcharger.utils.SharedModel;
 
@@ -49,7 +51,8 @@ public class HeaderFragment extends Fragment implements View.OnClickListener {
     int clickedCnt = 0;
     ImageButton btnLogo;
     ImageView btnHome;
-
+    TextView textViewChargerId;
+    ChargerConfiguration chargerConfiguration;
     SharedModel sharedModel;
 
     public HeaderFragment() {
@@ -84,11 +87,10 @@ public class HeaderFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    @SuppressLint("ClickableViewAccessibility")
+    @SuppressLint({"ClickableViewAccessibility", "SetTextI18n"})
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_header, container, false);
 
         btnHome = view.findViewById(R.id.btnHome);
@@ -117,6 +119,9 @@ public class HeaderFragment extends Fragment implements View.OnClickListener {
                 return false;
             }
         });
+        textViewChargerId = view.findViewById(R.id.textViewChargerId);
+        chargerConfiguration = ((MainActivity) MainActivity.mContext).getChargerConfiguration();
+        textViewChargerId.setText("ID-" + chargerConfiguration.getChargerId());
         return view;
     }
 

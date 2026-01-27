@@ -1,11 +1,15 @@
 package com.dongah.fastcharger.pages;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,6 +34,7 @@ import com.dongah.fastcharger.websocket.ocpp.core.ChargePointStatus;
 import com.dongah.fastcharger.websocket.ocpp.core.Reason;
 import com.dongah.fastcharger.websocket.socket.SocketReceiveMessage;
 import com.dongah.fastcharger.websocket.socket.SocketState;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,9 +64,11 @@ public class MemberCardWaitFragment extends Fragment {
 
     int cnt = 0;
     Button btnConfirm;
-    ImageView imgMemberWaiting_bg, imgMemberSpinner;
-    TextView textView;
-    AnimationDrawable animationDrawableMemberCard;
+    AVLoadingIndicatorView avi;
+    ImageView imageViewMemberFailed;
+    TextView textView, textViewFailed;
+    ObjectAnimator fadeAnimator;
+
     Handler countHandler;
     Runnable countRunnable;
     ClassUiProcess classUiProcess;
@@ -102,18 +109,25 @@ public class MemberCardWaitFragment extends Fragment {
         }
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_member_card_wait, container, false);
         requestStrings = new String[1];
         btnConfirm = view.findViewById(R.id.btnConfirm);
         textView = view.findViewById(R.id.txtMemberWaiting);
-        imgMemberWaiting_bg = view.findViewById(R.id.imgMemberWaiting_bg);
-        imgMemberSpinner = view.findViewById(R.id.imgMemberSpinner);
-        imgMemberSpinner.setBackgroundResource(R.drawable.ani_member_card_wait);
-        animationDrawableMemberCard = (AnimationDrawable) imgMemberSpinner.getBackground();
+
+        avi = view.findViewById(R.id.avi);
+        textViewFailed = view.findViewById(R.id.textViewFailed);
+        imageViewMemberFailed = view.findViewById(R.id.imageViewMemberFailed);
+
+        // textViewFailed animation
+        fadeAnimator = ObjectAnimator.ofFloat(textViewFailed, "alpha", 1f, 0.2f);
+        fadeAnimator.setDuration(1000);
+        fadeAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        fadeAnimator.setRepeatMode(ValueAnimator.REVERSE);
+        fadeAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
 
         return view;
     }
@@ -123,7 +137,7 @@ public class MemberCardWaitFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         try {
-
+            startAviAnim();
             chargerConfiguration = ((MainActivity) MainActivity.mContext).getChargerConfiguration();
             classUiProcess = ((MainActivity) MainActivity.mContext).getClassUiProcess(mChannel);
             chargingCurrentData = ((MainActivity) MainActivity.mContext).getChargingCurrentData();
@@ -131,9 +145,7 @@ public class MemberCardWaitFragment extends Fragment {
 //            MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity.mContext, R.raw.membercardwait);
 //            mediaPlayer.start();
 
-
             sharedModel = new ViewModelProvider(requireActivity()).get(SharedModel.class);
-            animationDrawableMemberCard.start();
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -151,9 +163,11 @@ public class MemberCardWaitFragment extends Fragment {
                             //authorize result check
                             if (!chargingCurrentData.isAuthorizeResult()) {
                                 textView.setText(getResources().getText(R.string.txtMemberFail));
-                                imgMemberSpinner.setVisibility(View.INVISIBLE);
-                                imgMemberWaiting_bg.setImageResource(R.drawable.membership_failure);
+                                avi.setVisibility(View.INVISIBLE);
+                                textViewFailed.setVisibility(View.VISIBLE);
+                                imageViewMemberFailed.setVisibility(View.VISIBLE);
                                 btnConfirm.setVisibility(View.VISIBLE);
+                                stopAviAnim();
                             }
                         }
                     };
@@ -222,7 +236,6 @@ public class MemberCardWaitFragment extends Fragment {
                                     null,
                                     false));
                         }
-
                     }
                 }
             } else {
@@ -300,20 +313,26 @@ public class MemberCardWaitFragment extends Fragment {
         }
     }
 
+    void startAviAnim() {
+        avi.show();
+    }
+
+    void stopAviAnim() {
+        avi.hide();
+    }
+
     @Override
     public void onDetach() {
         super.onDetach();
         try {
+            stopAviAnim();
             if (countHandler != null) {
                 countHandler.removeCallbacks(countRunnable);
                 countHandler.removeCallbacksAndMessages(null);
                 countHandler.removeMessages(0);
                 countHandler = null;
             }
-            if (animationDrawableMemberCard != null) {
-                animationDrawableMemberCard.stop();
-                animationDrawableMemberCard = null;
-            }
+
             //image check
             requestStrings[0] = String.valueOf(mChannel);
             sharedModel.setMutableLiveData(requestStrings);

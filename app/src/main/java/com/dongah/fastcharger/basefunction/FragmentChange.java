@@ -1,6 +1,10 @@
 package com.dongah.fastcharger.basefunction;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -44,13 +48,18 @@ public class FragmentChange {
         ((MainActivity) MainActivity.mContext).setFragmentSeq(channel, uiSeq);
         int frameLayoutId = channel == 0 ? R.id.body : R.id.body;
         FragmentTransaction transaction = ((MainActivity) MainActivity.mContext).getSupportFragmentManager().beginTransaction();
+//        controlBtnHome(uiSeq, channel);
+//        controlBtnHome(uiSeq);
+        onFrameLayoutChange(uiSeq);
         switch (uiSeq) {
             case INIT:
                 try {
+//                    onFrameLayoutChange(true);
                     InitFragment initFragment = new InitFragment();
                     transaction.replace(frameLayoutId, initFragment, sendText);
                     initFragment.setArguments(bundle);
                     transaction.commit();
+//                    controlBtnHome(uiSeq);
                 } catch (Exception e) {
                     logger.error("onFragmentChange error : INIT {}", e.getMessage());
                 }
@@ -61,6 +70,7 @@ public class FragmentChange {
                     transaction.replace(frameLayoutId, authSelectFragment, "AUTH_SELECT");
                     authSelectFragment.setArguments(bundle);
                     transaction.commit();
+//                    controlBtnHome(uiSeq);
                 } catch (Exception e) {
                     logger.error("onFragmentChange error : AUTH_SELECT {}", e.getMessage());
                 }
@@ -191,6 +201,7 @@ public class FragmentChange {
                 break;
             case ADMIN_PASS:
                 try {
+//                    onFrameLayoutChange(false);
                     AdminPasswordFragment adminPasswordFragment = new AdminPasswordFragment();
                     transaction.replace(frameLayoutId, adminPasswordFragment, "ADMIN");
                     adminPasswordFragment.setArguments(bundle);
@@ -241,37 +252,33 @@ public class FragmentChange {
                 break;
 
         }
-
     }
 
+    public void onFrameLayoutChange(UiSeq uiSeq) {
+        //main activity layout fullScreen change
+        try {
+    //            FrameLayout frameBody = ((MainActivity) MainActivity.mContext).findViewById(R.id.body);
+            FrameLayout frameHeader = ((MainActivity) MainActivity.mContext).findViewById(R.id.header);
+            FrameLayout frameFooter = ((MainActivity) MainActivity.mContext).findViewById(R.id.frameFooter);
 
-//    public void onFrameLayoutChange(boolean hidden) {
-//        //main activity layout fullScreen change
-//        try {
-//            UiSeq uiSeq;
-//            FrameLayout frameLayout = ((MainActivity) MainActivity.mContext).findViewById(R.id.body);
-//            FrameLayout fullScreen = ((MainActivity) MainActivity.mContext).findViewById(R.id.fullScreen);
-////            SharedModel sharedModel = new ViewModelProvider(((MainActivity) MainActivity.mContext)).get(SharedModel.class);
-//
-//            if (hidden) {
-//                frameLayout.setVisibility(View.INVISIBLE);
-//                fullScreen.setVisibility(View.VISIBLE);
-//                FragmentTransaction transaction = ((MainActivity) MainActivity.mContext).getSupportFragmentManager().beginTransaction();
-//                AdminPasswordFragment adminPasswordFragment = new AdminPasswordFragment();
-//                transaction.replace(R.id.fullScreen, adminPasswordFragment);
-//                transaction.commit();
-//            } else {
-//                frameLayout.setVisibility(View.VISIBLE);
-//                fullScreen.setVisibility(View.INVISIBLE);
-//            }
-//            // button logo */
-//            String[] requestStrings = new String[1];
-//            requestStrings[0] = "0";
-//            sharedModel.setMutableLiveData(requestStrings);
-//        } catch (Exception e) {
-//            logger.error("onFrameLayoutChange error : {}", e.getMessage());
-//        }
-//    }
+            switch (uiSeq) {
+                case ADMIN_PASS:
+                case ENVIRONMENT:
+                    case CONFIG_SETTING:
+                case WEB_SOCKET:
+                case CONTROL_BOARD_DEBUGGING:
+                    frameHeader.setVisibility(View.INVISIBLE);
+                    frameFooter.setVisibility(View.INVISIBLE);
+                    break;
+                default:
+                    frameHeader.setVisibility(View.VISIBLE);
+                    frameFooter.setVisibility(View.VISIBLE);
+                    break;
+            }
+        } catch (Exception e) {
+            logger.error("onFrameLayoutChange error : {}", e.getMessage());
+        }
+    }
 
 
     public void onFragmentHeaderChange(int channel, String sendText) {
@@ -288,6 +295,54 @@ public class FragmentChange {
             logger.error("onFragmentHeaderChange error : {}", e.getMessage());
         }
     }
+
+//    public void controlBtnHome(UiSeq uiSeq) {
+//        ImageView btnHome = ((MainActivity) MainActivity.mContext).findViewById(R.id.btnHome);
+//
+//        switch (uiSeq) {
+//            case INIT:
+//            case MEMBER_CARD:
+//            case MEMBER_CARD_WAIT:
+//            case CREDIT_CARD_WAIT:
+//            case CHARGING:
+//            case CONNECT_CHECK:
+//            case FAULT:
+//            case CONFIG_SETTING:
+//            case REBOOTING:
+//                btnHome.setVisibility(View.INVISIBLE);
+//                break;
+//            default:
+//                btnHome.setVisibility(View.VISIBLE);
+//                break;
+//        }
+//    }
+
+//    public void controlBtnHome(int channel, boolean con) {
+//        UiSeq uiSeq = ((MainActivity) MainActivity.mContext).getClassUiProcess(channel).getUiSeq();
+//        ImageView btnHome = ((MainActivity) MainActivity.mContext).findViewById(R.id.btnHome);
+//        if (con) {
+//            btnHome.setVisibility(View.INVISIBLE);
+//        } else {
+//            btnHome.setVisibility(View.VISIBLE);
+//        }
+//
+//        switch (uiSeq) {
+//            case MEMBER_CARD:
+//            case MEMBER_CARD_WAIT:
+//            case CREDIT_CARD_WAIT:
+//            case CHARGING:
+//            case CONNECT_CHECK:
+//            case FAULT:
+//            case CONFIG_SETTING:
+//            case REBOOTING:
+//                btnHome.setVisibility(View.INVISIBLE);
+//                break;
+//            default:
+//                btnHome.setVisibility(View.VISIBLE);
+//                break;
+//        }
+//    }
+
 
     public void onRemoveFragment(int channel, String tag) {
         try {

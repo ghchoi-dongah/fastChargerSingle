@@ -114,7 +114,6 @@ public class ConfigSettingFragment extends Fragment implements View.OnClickListe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_config_setting, container, false);
         try {
             //* charger configuration */
@@ -424,6 +423,7 @@ public class ConfigSettingFragment extends Fragment implements View.OnClickListe
             chargerConfiguration.setChargerPointModelCode(spChargerModelCode);
             chargerConfiguration.setChargerId(editChargerId.getText().toString());
 
+            chargerConfiguration.setServerHttpString(editHttpURL.getText().toString());
             chargerConfiguration.setServerConnectingString(editServerUrl.getText().toString());
             chargerConfiguration.setServerPort(Integer.parseInt(editPort.getText().toString()));
 

@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.dongah.fastcharger.MainActivity;
@@ -73,7 +75,6 @@ public class AdminPasswordFragment extends Fragment implements View.OnClickListe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_admin_password, container, false);
         editPassword = view.findViewById(R.id.editPassword);
         btnCancel = view.findViewById(R.id.btnCancel);

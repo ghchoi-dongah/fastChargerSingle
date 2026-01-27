@@ -6,71 +6,75 @@
     android:layout_height="676dp"
     tools:context=".pages.InitFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<!--    <androidx.appcompat.widget.LinearLayoutCompat-->
+<!--        android:id="@+id/linearLayout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent">-->
 
-        <ImageView
-            android:id="@+id/bgCheck"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/img_check"
-            android:clickable="false"
-            android:visibility="invisible"
-            tools:ignore="ContentDescription" />
-    </androidx.appcompat.widget.LinearLayoutCompat>
+<!--        <ImageView-->
+<!--            android:id="@+id/bgCheck"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:background="@drawable/img_check"-->
+<!--            android:clickable="false"-->
+<!--            android:visibility="invisible"-->
+<!--            tools:ignore="ContentDescription" />-->
+<!--    </androidx.appcompat.widget.LinearLayoutCompat>-->
 
+
+    <View
+        android:id="@+id/viewCircle"
+        android:layout_width="480dp"
+        android:layout_height="480dp"
+        android:background="@drawable/layer_list_oval_blue"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageViewCar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="120dp"
+        android:background="@drawable/car_blue"
+        app:layout_constraintTop_toTopOf="@id/viewCircle"
+        app:layout_constraintStart_toStartOf="@id/viewCircle"
+        app:layout_constraintEnd_toEndOf="@id/viewCircle"
+        tools:ignore="contentDescription" />
+
+    <TextView
+        android:id="@+id/textViewStartMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/startMessage"
+        android:textSize="40sp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/imageViewCar"
+        app:layout_constraintStart_toStartOf="@id/imageViewCar"
+        app:layout_constraintEnd_toEndOf="@id/imageViewCar" />
+
+    <TextView
+        android:id="@+id/textViewInitMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/initMessage"
+        android:textSize="24sp"
+        app:layout_constraintTop_toBottomOf="@id/textViewStartMessage"
+        app:layout_constraintStart_toStartOf="@id/textViewStartMessage"
+        app:layout_constraintEnd_toEndOf="@id/textViewStartMessage" />
 
     <TextView
         android:id="@+id/txtMemberUnitInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:text="@string/memChargingUnit"
         android:textSize="22sp"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-
-
-    <ImageView
-        android:id="@+id/btnInit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/init_charge"
-        android:layout_marginStart="80dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        tools:ignore="ContentDescription" />
-
-    <ImageView
-        android:id="@+id/imgComboGlow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/init_charge_blur"
-        app:layout_constraintTop_toTopOf="@id/btnInit"
-        app:layout_constraintLeft_toLeftOf="@id/btnInit"
-        tools:ignore="ContentDescription" />
-
-
-
-
-    <TextView
-        android:id="@+id/txtInitMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="40sp"
-        android:gravity="center"
-        android:text="@string/initMessage"
-        android:textStyle="bold"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="70dp"
-        app:layout_constraintLeft_toRightOf="@id/btnInit"
-        app:layout_constraintBottom_toBottomOf="@id/btnInit"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintStart_toStartOf="@id/textViewInitMessage"
+        app:layout_constraintTop_toBottomOf="@id/textViewInitMessage"
+        app:layout_constraintEnd_toEndOf="@id/textViewInitMessage"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

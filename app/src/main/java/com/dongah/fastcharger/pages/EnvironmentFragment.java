@@ -79,7 +79,6 @@ public class EnvironmentFragment extends Fragment implements View.OnClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_environment, container, false);
         btnConfig = view.findViewById(R.id.btnConfig);
         btnWebSocket = view.findViewById(R.id.btnWebSocket);

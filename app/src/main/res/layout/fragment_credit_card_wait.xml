@@ -6,14 +6,13 @@
     android:layout_height="676dp"
     tools:context=".pages.CreditCardWaitFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/creditwaitMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
         android:text="@string/creditwaitMessage"
         android:textSize="44sp"
-        android:layout_marginTop="50dp"
         android:gravity="center_horizontal"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
@@ -22,34 +21,34 @@
         android:id="@+id/textViewCreditCardSub"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginBottom="90dp"
         android:gravity="center"
         android:text="@string/creditCardTaggingSubMessage"
-        android:textSize="29sp"
-        android:textColor="@color/gin_grey"
-        app:layout_constraintTop_toBottomOf="@+id/creditwaitMessage"
+        android:textSize="26sp"
+        android:textColor="@color/black_500"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:ignore="SpeakableTextPresentCheck" />
-
 
     <TextView
         android:id="@+id/txtPay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="130dp"
+        android:layout_marginStart="60dp"
         android:text="@string/preAmtMessage"
-        android:textSize="46sp"
-        android:layout_marginStart="-200dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintTop_toBottomOf="@id/textViewCreditCardSub"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        android:textSize="36sp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/creditwaitMessage"
+        app:layout_constraintLeft_toLeftOf="parent" />
 
     <TextView
         android:id="@+id/txtInputAmt"
-        android:layout_width="210dp"
+        android:layout_width="200dp"
         android:layout_height="55dp"
-        android:textSize="48sp"
-        android:gravity="right|center"
         android:layout_marginStart="20dp"
+        android:gravity="right|center"
+        android:textSize="40sp"
+        android:textColor="@color/black"
         app:layout_constraintLeft_toRightOf="@id/txtPay"
         app:layout_constraintTop_toTopOf="@id/txtPay"
         app:layout_constraintBottom_toBottomOf="@id/txtPay"
@@ -59,20 +58,20 @@
         android:id="@+id/won"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/payUnitMessage"
-        android:textSize="28sp"
-        android:layout_marginTop="15dp"
         android:layout_marginStart="10dp"
-        app:layout_constraintLeft_toRightOf="@id/txtInputAmt"
-        app:layout_constraintTop_toTopOf="@id/txtInputAmt" />
+        android:text="@string/payUnitMessage"
+        android:textSize="34sp"
+        android:textColor="@color/black"
+        app:layout_constraintRight_toRightOf="@id/viewLine"
+        app:layout_constraintBottom_toBottomOf="@id/txtInputAmt" />
 
     <View
-        android:id="@+id/textViewLine"
-        android:layout_width="460dp"
-        android:layout_height="1.5dp"
-        android:layout_centerInParent="true"
-        android:background="#224E98"
+        android:id="@+id/viewLine"
+        android:layout_width="400dp"
+        android:layout_height="4dp"
         android:layout_marginTop="5dp"
+        android:layout_centerInParent="true"
+        android:background="@color/primary"
         app:layout_constraintLeft_toLeftOf="@id/txtPay"
         app:layout_constraintTop_toBottomOf="@id/txtPay" />
 
@@ -80,11 +79,10 @@
         android:id="@+id/imageViewCreditCardBackground"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:layout_marginEnd="80dp"
         android:background="@drawable/card_to_reader_background"
-        android:layout_marginTop="30dp"
-        android:layout_marginStart="40dp"
-        app:layout_constraintTop_toBottomOf="@id/textViewLine"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/creditwaitMessage"
         app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="contentDescription" />
 
@@ -92,13 +90,12 @@
         android:id="@+id/imgCreditCardTagging"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:importantForAccessibility="no"
         android:background="@drawable/creditcardtagging"
+        android:importantForAccessibility="no"
         app:layout_constraintTop_toTopOf="@id/imageViewCreditCardBackground"
         app:layout_constraintStart_toStartOf="@id/imageViewCreditCardBackground"
         app:layout_constraintEnd_toEndOf="@id/imageViewCreditCardBackground"
         app:layout_constraintBottom_toBottomOf="@id/imageViewCreditCardBackground"
         tools:ignore="contentDescription" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

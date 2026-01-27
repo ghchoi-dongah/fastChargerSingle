@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import com.dongah.fastcharger.MainActivity;
 import com.dongah.fastcharger.R;
 import com.dongah.fastcharger.basefunction.UiSeq;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,8 +47,9 @@ public class MessageYesNoFragment extends Fragment implements View.OnClickListen
 
     TextView txtMessage;
     Button btnCancel, btnConfirm;
-    ImageView imgStopWait;
-    ObjectAnimator object;
+    AVLoadingIndicatorView avi;
+//    ImageView imgStopWait;
+//    ObjectAnimator object;
 
     public MessageYesNoFragment() {
         // Required empty public constructor
@@ -84,14 +86,14 @@ public class MessageYesNoFragment extends Fragment implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_message_yes_no, container, false);
         txtMessage = view.findViewById(R.id.txtMessage);
         btnCancel = view.findViewById(R.id.btnCancel);
         btnCancel.setOnClickListener(this);
         btnConfirm = view.findViewById(R.id.btnConfirm);
         btnConfirm.setOnClickListener(this);
-        imgStopWait = view.findViewById(R.id.imgStopWait);
+        avi = view.findViewById(R.id.avi);
+//        imgStopWait = view.findViewById(R.id.imgStopWait);
         return view;
     }
 
@@ -115,15 +117,18 @@ public class MessageYesNoFragment extends Fragment implements View.OnClickListen
                 ((MainActivity) getActivity()).getChargingCurrentData().setUserStop(true);
                 ((MainActivity) getActivity()).getControlBoard().getTxData(mChannel).setStop(true);
                 ((MainActivity) getActivity()).getControlBoard().getTxData(mChannel).setStart(false);
-                txtMessage.setText(R.string.stoppingMessage);
-                imgStopWait.setVisibility(View.VISIBLE);
+                txtMessage.setText(R.string.chargingFinishWaitMessage);
+//                imgStopWait.setVisibility(View.VISIBLE);
                 btnConfirm.setVisibility(View.INVISIBLE);
                 btnCancel.setVisibility(View.INVISIBLE);
-                object = ObjectAnimator.ofFloat(imgStopWait, "Alpha", 1.0f, 0.2f);
-                object.setInterpolator(new LinearInterpolator());
-                object.setDuration(1500);
-                object.setRepeatCount(ValueAnimator.INFINITE);
-                object.start();
+//                object = ObjectAnimator.ofFloat(imgStopWait, "Alpha", 1.0f, 0.2f);
+//                object.setInterpolator(new LinearInterpolator());
+//                object.setDuration(1500);
+//                object.setRepeatCount(ValueAnimator.INFINITE);
+//                object.start();
+
+                avi.setVisibility(View.VISIBLE);
+                startAviAnim();
             }
 
         } catch (Exception e) {
@@ -131,12 +136,22 @@ public class MessageYesNoFragment extends Fragment implements View.OnClickListen
         }
     }
 
+    void startAviAnim() {
+        avi.show();
+    }
+
+    void stopAviAnim() {
+        avi.hide();
+    }
+
+
     @Override
     public void onDetach() {
         super.onDetach();
-        if (object != null) {
-            object.cancel();
-            object = null;
-        }
+        stopAviAnim();
+//        if (object != null) {
+//            object.cancel();
+//            object = null;
+//        }
     }
 }

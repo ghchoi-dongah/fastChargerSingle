@@ -12,9 +12,11 @@ import android.os.Looper;
 import android.os.PowerManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -62,6 +64,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -74,9 +77,9 @@ public class MainActivity extends AppCompatActivity {
     public static Context mContext;
 
 
-    TextView txtVersion, txtFwVersion;
-    TextView textViewChargerId, textViewTime;
+    TextView textViewVersionValue, textViewTime;
     ImageView imgNetwork;
+    Boolean isHome = false;
     Runnable runnable;
     Handler handler = new Handler();
 
@@ -103,6 +106,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    public Boolean getIsHome() { return isHome; }
+    public void setIsHome(boolean isHome) { this.isHome = isHome; }
     public ToastPositionMake getToastPositionMake() {
         return toastPositionMake;
     }
@@ -184,8 +189,10 @@ public class MainActivity extends AppCompatActivity {
         /* 세로 고정 */
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 
-        textViewChargerId = findViewById(R.id.textViewChargerId);
         imgNetwork = findViewById(R.id.imgNetwork);
+        textViewTime = findViewById(R.id.textViewTime);
+        textViewVersionValue = findViewById(R.id.textViewVersionValue);
+        textViewVersionValue.setText("VER-" + GlobalVariables.VERSION + " | ");
 
         fragmentCurrent = new FragmentCurrent();
 
@@ -205,14 +212,6 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < GlobalVariables.maxChannel; i++) {
             fragmentChange.onFragmentChange(i, UiSeq.INIT, "INIT", "");
         }
-
-        txtVersion = findViewById(R.id.txtVersion);
-        txtVersion.setText("Ver : " + GlobalVariables.VERSION);
-        txtFwVersion = findViewById(R.id.txtFwVersion);
-        txtFwVersion.setText("FW Ver : " + GlobalVariables.FW_VERSION);
-
-        textViewTime = findViewById(R.id.textViewTime);
-        textViewChargerId = findViewById(R.id.textViewChargerId);
 
         // 3. Control board
         controlBoard = new ControlBoard(GlobalVariables.maxChannel, chargerConfiguration.getControlCom());
@@ -323,6 +322,9 @@ public class MainActivity extends AppCompatActivity {
 //        boolean aaa = socketReceiveMessage.onSecurityLogFileMake("2024-08-25T20:37:05Z", "2025-08-25T20:37:05Z", "192.168.30.120");
     }
 
+    public void setRequestedOrientation(int screenOrientationUnspecified) {
+    }
+
 
     @Override
     protected void onStart() {
@@ -363,7 +365,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateTime() {
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("a hh:mm", Locale.getDefault());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+            sdf.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
             String currentTime = sdf.format(new Date());
             textViewTime.setText(currentTime);
         } catch (Exception e){
@@ -480,7 +483,8 @@ public class MainActivity extends AppCompatActivity {
                                 ConnectionListJsonParse connectionListJsonParse = new ConnectionListJsonParse();
                                 connectorList = connectionListJsonParse.parseConnectorList(response);
 
-                                runOnUiThread(() -> textViewChargerId.setText("ID : " + connectorList.get(0).getSearchKey()));
+//                                runOnUiThread(() -> textViewChargerId.setText("ID : " + connectorList.get(0).getSearchKey()));
+                                runOnUiThread(() -> chargerConfiguration.setChargerId(String.valueOf(connectorList.get(0).getSearchKey())));
 
                                 String baseUrl = chargerConfiguration.getServerConnectingString() + "/" + GlobalVariables.getHumaxClientId();
                                 socketReceiveMessage = new SocketReceiveMessage(baseUrl);
@@ -549,4 +553,29 @@ public class MainActivity extends AppCompatActivity {
         return "";
     }
 
+    // 키보드 내리기
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        View view = getCurrentFocus();
+
+        if (view != null) {
+            int[] scrcoords = new int[2];
+            view.getLocationOnScreen(scrcoords);
+            float x = ev.getRawX() + view.getLeft() - scrcoords[0];
+            float y = ev.getRawY() + view.getTop() - scrcoords[1];
+
+            if (ev.getAction() == MotionEvent.ACTION_UP &&
+                    (x < view.getLeft() || x >= view.getRight() ||
+                            y < view.getTop() || y > view.getBottom())) {
+
+                // 키보드 내리기
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
+                // EditText 포커스 제거
+                view.clearFocus();
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
 }

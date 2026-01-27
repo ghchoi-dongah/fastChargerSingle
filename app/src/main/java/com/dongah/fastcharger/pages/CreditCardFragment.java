@@ -1,5 +1,6 @@
 package com.dongah.fastcharger.pages;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -87,16 +88,17 @@ public class CreditCardFragment extends Fragment implements View.OnClickListener
         }
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_credit_card, container, false);
         chargingCurrentData = ((MainActivity) MainActivity.mContext).getChargingCurrentData();
         amountFormatter = new DecimalFormat("###,##0");
         txtInputAmt = view.findViewById(R.id.txtInputAmt);
         unitPrice = view.findViewById(R.id.unitPrice);
-        unitPrice.setText(String.valueOf(chargingCurrentData.getPowerUnitPrice()));
+        String nonPrice = String.valueOf(chargingCurrentData.getPowerUnitPrice()).replace(".0", "");
+        unitPrice.setText(getString(R.string.chargeUnitFormat, String.valueOf(nonPrice)));
 
         btn500 = view.findViewById(R.id.btn500);
         btn500.setOnClickListener(this);
@@ -123,7 +125,6 @@ public class CreditCardFragment extends Fragment implements View.OnClickListener
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         try {
-
 //            MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity.mContext, R.raw.creditcard);
 //            mediaPlayer.setOnCompletionListener(MediaPlayer::release);
 //            mediaPlayer.start();
@@ -153,7 +154,6 @@ public class CreditCardFragment extends Fragment implements View.OnClickListener
                     countHandler.postDelayed(countRunnable, 1000);
                 }
             });
-
         } catch (Exception e) {
             logger.error("CreditCardFragment onViewCreated : {}", e.getMessage());
         }

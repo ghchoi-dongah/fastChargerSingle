@@ -6,15 +6,14 @@
     android:layout_height="676dp"
     tools:context=".pages.MemberCardFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/txtMessage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:textSize="44sp"
+        android:layout_marginTop="40dp"
         android:text="@string/memberCardTagging"
-        android:layout_marginTop="50dp"
+        android:textSize="44sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
 
@@ -22,7 +21,8 @@
         android:id="@+id/imageViewMemberCardReader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/member_card_to_reader_background"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/memcard_to_reader_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txtMessage"
@@ -40,6 +40,18 @@
         app:layout_constraintEnd_toEndOf="@id/imageViewMemberCardReader"
         app:layout_constraintTop_toTopOf="@id/imageViewMemberCardReader"
         tools:ignore="contentDescription" />
+
+    <TextView
+        android:id="@+id/textViewTagTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="20초"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="@id/imageViewMemberCardReader"
+        app:layout_constraintEnd_toEndOf="@id/imageViewMemberCardReader"
+        app:layout_constraintTop_toBottomOf="@id/imageViewMemberCardReader" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 package com.dongah.fastcharger.pages;
 
+import android.annotation.SuppressLint;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -44,10 +45,10 @@ public class MemberCardFragment extends Fragment {
     private String mParam2;
     private int mChannel;
 
-    int cnt = 0;
+    int cnt = 0, timer = 20;
     ImageView imgMemberCardTagging, imgCardSpinner;
     AnimationDrawable animationDrawable;
-    TextView txtMessage;
+    TextView txtMessage, textViewTagTimer;
     Handler countHandler;
     Runnable countRunnable;
 
@@ -87,12 +88,12 @@ public class MemberCardFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_member_card, container, false);
         txtMessage = view.findViewById(R.id.txtMessage);
         imgMemberCardTagging = view.findViewById(R.id.imgMemberCardTagging);
         imgMemberCardTagging.setBackgroundResource(R.drawable.membercardtagging);
         animationDrawable = (AnimationDrawable) imgMemberCardTagging.getBackground();
+        textViewTagTimer = view.findViewById(R.id.textViewTagTimer);
 
         //TL3800
         ((MainActivity) MainActivity.mContext).getTls3800().onTLS3800Request(mChannel, TLS3800.CMD_TX_RF_READ, 0);
@@ -100,6 +101,7 @@ public class MemberCardFragment extends Fragment {
         return view;
     }
 
+    @SuppressLint("SetTextI18n")
     @SuppressWarnings("ConstantConditions")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -111,6 +113,7 @@ public class MemberCardFragment extends Fragment {
 //            mediaPlayer.start();
 
             animationDrawable.start();
+            textViewTagTimer.setText(timer + "초");
 
             //count
             ((MainActivity) MainActivity.mContext).runOnUiThread(new Runnable() {
@@ -124,6 +127,7 @@ public class MemberCardFragment extends Fragment {
                             if (Objects.equals(cnt, 20)) {
                                 ((MainActivity) MainActivity.mContext).getClassUiProcess(mChannel).onHome();
                             } else {
+                                textViewTagTimer.setText((timer - cnt) + "초");
                                 countHandler.postDelayed(countRunnable, 1000);
                             }
                         }

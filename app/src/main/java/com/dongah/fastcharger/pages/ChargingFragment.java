@@ -33,6 +33,7 @@ import com.dongah.fastcharger.websocket.ocpp.core.Reason;
 import com.dongah.fastcharger.websocket.ocpp.core.StatusNotificationRequest;
 import com.dongah.fastcharger.websocket.ocpp.core.StopTransactionRequest;
 import com.dongah.fastcharger.websocket.ocpp.utilities.ZonedDateTimeConvert;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -76,7 +77,8 @@ public class ChargingFragment extends Fragment implements View.OnClickListener, 
     TextView txtUnitPrice, txtChargePay, txtChargeTime, txtAmountOfCharge;
     TextView txtRemainTime, txtPrepayment;
     Button btnChargingStop;
-    TextView txtOutVoltage, txtOutCurrent, txtOutPower;
+    TextView txtOutVoltage, txtOutCurrent, txtOutPower, textViewRequestCurrentValue, textViewLimitSoc;
+    CircularProgressIndicator progressCircular;
     Handler uiUpdateHandler;
     double powerUnitPrice = 0f;
     SharedModel sharedModel;
@@ -126,7 +128,6 @@ public class ChargingFragment extends Fragment implements View.OnClickListener, 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_charging, container, false);
         txtUnitPrice = view.findViewById(R.id.txtUnitPrice);
         txtChargePay = view.findViewById(R.id.txtChargePay);
@@ -139,9 +140,10 @@ public class ChargingFragment extends Fragment implements View.OnClickListener, 
         txtPrepayment = view.findViewById(R.id.txtPrepayment);
         btnChargingStop = view.findViewById(R.id.btnChargingStop);
         btnChargingStop.setOnClickListener(this);
-
         txtSoc = view.findViewById(R.id.txtSoc);
-
+        textViewRequestCurrentValue = view.findViewById(R.id.textViewRequestCurrentValue);
+        progressCircular = view.findViewById(R.id.progressCircular);
+        textViewLimitSoc = view.findViewById(R.id.textViewLimitSoc);
         return view;
     }
 
@@ -153,7 +155,7 @@ public class ChargingFragment extends Fragment implements View.OnClickListener, 
 //            MediaPlayer mediaPlayer = MediaPlayer.create(MainActivity.mContext, R.raw.charging);
 //            mediaPlayer.setOnCompletionListener(MediaPlayer::release);
 //            mediaPlayer.start();
-
+            progressCircular.isIndeterminate();
             sharedModel = new ViewModelProvider(requireActivity()).get(SharedModel.class);
             requestStrings[0] = String.valueOf(mChannel);
             sharedModel.setMutableLiveData(requestStrings);
@@ -163,6 +165,8 @@ public class ChargingFragment extends Fragment implements View.OnClickListener, 
                 powerUnitPrice = ((MainActivity) MainActivity.mContext).getChargingCurrentData().getPowerUnitPrice();
                 txtUnitPrice.setText(Double.toString(powerUnitPrice) + " 원");
                 txtPrepayment.setText(((MainActivity) MainActivity.mContext).getChargingCurrentData().getPrePayment() + " 원");
+                textViewLimitSoc.setText("최대 충전량: " + ((MainActivity) MainActivity.mContext).getChargerConfiguration().getTargetSoc() + "%");
+                progressCircular.setProgress(((MainActivity) MainActivity.mContext).getChargingCurrentData().getSoc(), true);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -251,10 +255,13 @@ public class ChargingFragment extends Fragment implements View.OnClickListener, 
                                 ((MainActivity) MainActivity.mContext).getChargingCurrentData().setRemainTimeStr(String.format("%02d", rHour)+String.format("%02d", rMinute)+String.format("%02d", rSecond));
 
                                 txtSoc.setText(((MainActivity) MainActivity.mContext).getChargingCurrentData().getSoc() + "%");
+                                progressCircular.setProgress(((MainActivity) MainActivity.mContext).getChargingCurrentData().getSoc(), true);
+
 
                                 txtOutVoltage.setText(voltageFormatter.format(((MainActivity) MainActivity.mContext).getChargingCurrentData().getOutPutVoltage() * 0.1) + " V");
                                 txtOutCurrent.setText(powerFormatter.format(((MainActivity) MainActivity.mContext).getChargingCurrentData().getOutPutCurrent() * 0.1) + " A");
                                 txtOutPower.setText(powerFormatter.format(((MainActivity) MainActivity.mContext).getChargingCurrentData().getOutPutVoltage() * ((MainActivity) MainActivity.mContext).getChargingCurrentData().getOutPutCurrent() * 0.00001) + " kW");
+                                textViewRequestCurrentValue.setText(powerFormatter.format(((MainActivity) MainActivity.mContext).getChargingCurrentData().getTargetCurrent() * 0.1) + "A");
                             }
                         } catch (Exception e) {
                             logger.error("ChargingFragment onCharging : {}", e.getMessage());

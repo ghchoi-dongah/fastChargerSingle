@@ -1,6 +1,8 @@
 package com.dongah.fastcharger.basefunction;
 
 import android.os.Build;
+import android.view.View;
+import android.widget.ImageView;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
@@ -161,7 +163,10 @@ public class ClassUiProcess implements TLS3800Listener {
             if (((MainActivity) MainActivity.mContext).getFragmentSeq(getCh()).getValue() < 17) onFaultCheck(rxData);
             //reservation check
 //            onReservationExpiryDate(chargingCurrentData);
-
+            if (((MainActivity) MainActivity.mContext).getIsHome()) {
+                ((MainActivity) MainActivity.mContext).setIsHome(false);
+                onHome();
+            }
             //sequence check
             switch (getUiSeq()) {
                 case NONE:
@@ -572,7 +577,6 @@ public class ClassUiProcess implements TLS3800Listener {
         fragmentChange.onFragmentChange(getCh(), UiSeq.INIT, "INIT", null);
     }
 
-
     private void onFinish() {
         //충전 완료
         if (chargingCurrentData.isReBoot()) {
@@ -778,6 +782,7 @@ public class ClassUiProcess implements TLS3800Listener {
             chargingCurrentData.setOutPutCurrent(rxData.getOutCurrent());  //출력전류
             chargingCurrentData.setOutPutVoltage(rxData.getOutVoltage());  //출력전압
             chargingCurrentData.setPowerMeter(rxData.getPowerMeter());  //전력량
+            chargingCurrentData.setTargetCurrent(rxData.getCsmEVTargetCurrent());   // 요청전류
             chargingCurrentData.setFrequency(60);    //주파수
             chargingCurrentData.setChargingRemainTime(rxData.getRemainTime());  //충전 남은 시간
             chargingCurrentData.setSoc(rxData.getSoc());

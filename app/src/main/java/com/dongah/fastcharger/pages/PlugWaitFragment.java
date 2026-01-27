@@ -24,6 +24,7 @@ import com.dongah.fastcharger.controlboard.RxData;
 import com.dongah.fastcharger.utils.SharedModel;
 import com.dongah.fastcharger.websocket.ocpp.core.ChargePointErrorCode;
 import com.dongah.fastcharger.websocket.ocpp.core.ChargePointStatus;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,11 +52,13 @@ public class PlugWaitFragment extends Fragment {
     private int mChannel;
 
     int cnt = 0;
-    boolean imgChange = false;
+//    boolean imgChange = false;
     TextView txtMessage;
-    ImageView imgInlet, imgPlugConnector;
+    AVLoadingIndicatorView avi;
 
-    AnimationDrawable aniInlet, aniPlug;
+//    ImageView imgInlet, imgPlugConnector;
+
+//    AnimationDrawable aniInlet, aniPlug;
 
     RxData rxData;
     Handler countHandler;
@@ -100,18 +103,17 @@ public class PlugWaitFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_plug_wait, container, false);
-        imgChange = false;
+//        imgChange = false;
         txtMessage = view.findViewById(R.id.txtMessage);
-        imgInlet = view.findViewById(R.id.imgInlet);
-        imgPlugConnector = view.findViewById(R.id.imgPlugConnector);
-        imgPlugConnector.setBackgroundResource(R.drawable.plugconnecting);
-        aniPlug = (AnimationDrawable) imgPlugConnector.getBackground();
+//        imgInlet = view.findViewById(R.id.imgInlet);
+//        imgPlugConnector = view.findViewById(R.id.imgPlugConnector);
+//        imgPlugConnector.setBackgroundResource(R.drawable.plugconnecting);
+//        aniPlug = (AnimationDrawable) imgPlugConnector.getBackground();
 
-        imgInlet.setBackgroundResource(R.drawable.plugbackground);
-        aniInlet = (AnimationDrawable) imgInlet.getBackground();
-
+//        imgInlet.setBackgroundResource(R.drawable.plugbackground);
+//        aniInlet = (AnimationDrawable) imgInlet.getBackground();
+        avi = view.findViewById(R.id.avi);
         chargerConfiguration = ((MainActivity) MainActivity.mContext).getChargerConfiguration();
         chargingCurrentData = ((MainActivity) MainActivity.mContext).getChargingCurrentData();
         return view;
@@ -122,8 +124,9 @@ public class PlugWaitFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         try {
+            startAviAnim();
             cnt = 0;
-            aniPlug.start();
+//            aniPlug.start();
             rxData = ((MainActivity) getActivity()).getControlBoard().getRxData(mChannel);
             sharedModel = new ViewModelProvider(requireActivity()).get(SharedModel.class);
             requestStrings[0] = String.valueOf(mChannel);
@@ -168,14 +171,15 @@ public class PlugWaitFragment extends Fragment {
                             }
 
                             //connecting wait
-                            if (rxData.isCsPilot() && !imgChange) {
-                                imgChange = true;
+                            if (rxData.isCsPilot()) {
                                 cnt = 0;
-                                if (aniPlug.isRunning()) {
-                                    aniPlug.stop();
-                                    imgPlugConnector.setBackgroundResource(R.drawable.step12);
-                                    aniInlet.start();
-                                }
+                                txtMessage.setText(R.string.EVCheckMessage);
+//                                if (aniPlug.isRunning()) {
+//                                    aniPlug.stop();
+//                                    imgPlugConnector.setBackgroundResource(R.drawable.step12);
+//                                    aniInlet.start();
+//                                }
+
                             }
                         }
                     };
@@ -188,10 +192,20 @@ public class PlugWaitFragment extends Fragment {
         }
     }
 
+    void startAviAnim() {
+        avi.show();
+    }
+
+    void stopAviAnim() {
+        avi.hide();
+    }
+
+
     @Override
     public void onDetach() {
         super.onDetach();
         try {
+            stopAviAnim();
             requestStrings[0] = String.valueOf(mChannel);
             sharedModel.setMutableLiveData(requestStrings);
             if (countHandler != null) {
@@ -199,16 +213,16 @@ public class PlugWaitFragment extends Fragment {
                 countHandler.removeCallbacksAndMessages(null);
                 countHandler.removeMessages(0);
             }
-            if (aniPlug != null) {
-                aniPlug.stop();
-                ((AnimationDrawable) imgPlugConnector.getBackground()).stop();
-                imgPlugConnector.setBackground(null);
-            }
-            if (aniInlet != null) {
-                aniInlet.stop();
-                ((AnimationDrawable) imgInlet.getBackground()).stop();
-                imgInlet.setBackground(null);
-            }
+//            if (aniPlug != null) {
+//                aniPlug.stop();
+//                ((AnimationDrawable) imgPlugConnector.getBackground()).stop();
+//                imgPlugConnector.setBackground(null);
+//            }
+//            if (aniInlet != null) {
+//                aniInlet.stop();
+//                ((AnimationDrawable) imgInlet.getBackground()).stop();
+//                imgInlet.setBackground(null);
+//            }
         } catch (Exception e) {
             logger.error("PlugWaitFragment onDetach : {}", e.getMessage());
         }

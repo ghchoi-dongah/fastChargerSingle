@@ -79,7 +79,6 @@ public class ConnectCheckFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_connect_check, container, false);
         txtMessage = view.findViewById(R.id.txtMessage);
         imgPlugBackground = view.findViewById(R.id.imgPlugBackground);

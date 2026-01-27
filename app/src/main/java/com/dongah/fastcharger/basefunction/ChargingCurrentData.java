@@ -53,6 +53,7 @@ public class ChargingCurrentData {
     double outPutVoltage = 0f;
     double outPutCurrent = 0f;
     double Frequency = 0f;
+    double targetCurrent = 0f;      // 요청전류
 
 
     int soc = 0;
@@ -185,6 +186,7 @@ public class ChargingCurrentData {
         setResParentIdTag("");
         setResReservationId("");
         setRemoteStartSmartCharging(false);
+        setTargetCurrent(0);
         remoteSmartChargingJsonArray = null;
 //        setHmChargingLimitFee(0);
     }
@@ -792,5 +794,13 @@ public class ChargingCurrentData {
 
     public void setHmChargingLimitFee(int hmChargingLimitFee) {
         HmChargingLimitFee = hmChargingLimitFee;
+    }
+
+    public double getTargetCurrent() {
+        return targetCurrent;
+    }
+
+    public void setTargetCurrent(double targetCurrent) {
+        this.targetCurrent = targetCurrent;
     }
 }

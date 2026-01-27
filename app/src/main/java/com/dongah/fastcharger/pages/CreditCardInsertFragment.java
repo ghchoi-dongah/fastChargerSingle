@@ -98,11 +98,10 @@ public class CreditCardInsertFragment extends Fragment implements View.OnClickLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_credit_card_insert, container, false);
-        classUiProcess = ((MainActivity) getActivity()).getClassUiProcess(mChannel);
+        classUiProcess = ((MainActivity) MainActivity.mContext).getClassUiProcess(mChannel);
         txtInputAmt = view.findViewById(R.id.txtInputAmt);
-        txtInputAmt.setText(payFormatter.format(classUiProcess.getChargingCurrentData().getPrePayment()));
+//        txtInputAmt.setText(payFormatter.format(classUiProcess.getChargingCurrentData().getPrePayment()));
         creditInsert = view.findViewById(R.id.creditInsert);
         creditInsert.setBackgroundResource(R.drawable.ani_credit_wait);
         animationDrawable = (AnimationDrawable) creditInsert.getBackground();
