@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/txtChargerType"
-        android:layout_marginStart="80dp"
+        android:layout_marginStart="70dp"
         android:layout_marginTop="10dp"
         android:textSize="18sp"
         android:textColor="@color/black"
@@ -145,7 +145,7 @@
 
     <EditText
         android:id="@+id/editServerPort"
-        android:layout_width="150dp"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_edit_text_disenable"
         android:textColor="#000000"
@@ -173,7 +173,7 @@
 
     <EditText
         android:id="@+id/editControlPort"
-        android:layout_width="150dp"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_edit_text_focus"
         android:textColor="#000000"
@@ -198,7 +198,7 @@
 
     <EditText
         android:id="@+id/editRfPort"
-        android:layout_width="150dp"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:background="@drawable/shape_edit_text_focus"
@@ -223,7 +223,7 @@
 
     <EditText
         android:id="@+id/editCreditPort"
-        android:layout_width="150dp"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_edit_text_focus"
         android:textColor="#000000"
@@ -248,7 +248,7 @@
 
     <EditText
         android:id="@+id/editDR"
-        android:layout_width="150dp"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_edit_text_focus"
         android:textColor="#000000"
@@ -273,7 +273,7 @@
 
     <EditText
         android:id="@+id/editTestPrice"
-        android:layout_width="150dp"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_edit_text_focus"
         android:textColor="#000000"
@@ -287,115 +287,51 @@
         android:hint="테스트 단가"
         tools:ignore="Autofill,HardcodedText" />
 
-    <RadioGroup
-        android:id="@+id/radioGrpPayment"
-        android:orientation="horizontal"
+    <TextView
+        android:id="@+id/txtPayment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginStart="60dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTestPrice">
+        android:layout_marginTop="10dp"
+        android:text="@string/payMode"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/txtTestPrice"
+        app:layout_constraintEnd_toEndOf="@id/txtTestPrice" />
 
-        <TextView
-            android:id="@+id/headerPayment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/teal_200"
-            android:text="@string/headerPayment"
-            android:textSize="18sp" />
+    <Spinner
+        android:id="@+id/spinnerPayment"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:dropDownWidth="300dp"
+        android:spinnerMode="dropdown"
+        android:theme="@style/SpinnerTheme"
+        android:background="@drawable/spinner_background"
+        app:layout_constraintLeft_toRightOf="@id/txtPayment"
+        app:layout_constraintTop_toTopOf="@id/txtPayment" />
 
-        <RadioButton
-            android:id="@+id/rbMemberCredit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="false"
-            android:textColor="@color/black"
-            android:layout_marginStart="5dp"
-            android:tag="0"
-            android:text="@string/rbMemberCredit"
-            android:textSize="14sp" />
-
-        <RadioButton
-            android:id="@+id/rbMember"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="false"
-            android:textColor="@color/black"
-            android:layout_marginStart="5dp"
-            android:tag="1"
-            android:text="@string/rbMember"
-            android:textSize="14sp" />
-
-        <RadioButton
-            android:id="@+id/rbCredit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="false"
-            android:textColor="@color/black"
-            android:layout_marginStart="5dp"
-            android:tag="2"
-            android:text="@string/rbCredit"
-            android:textSize="14sp" />
-    </RadioGroup>
-
-    <RadioGroup
-        android:id="@+id/radioGrpModeSelect"
-        android:orientation="horizontal"
+    <TextView
+        android:id="@+id/txtMode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="@id/radioGrpPayment"
-        app:layout_constraintTop_toBottomOf="@id/radioGrpPayment">
+        android:layout_marginTop="10dp"
+        android:text="@string/mode"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/txtPayment"
+        app:layout_constraintEnd_toEndOf="@id/txtPayment" />
 
-        <TextView
-            android:id="@+id/headerMode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/teal_200"
-            android:text="@string/headerMode"
-            android:textSize="18sp" />
-
-        <RadioButton
-            android:id="@+id/rbServerMode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:checked="false"
-            android:textColor="@color/black"
-            android:text="@string/rbServerMode"
-            android:tag="0" />
-
-        <RadioButton
-            android:id="@+id/rbAutoMode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:checked="false"
-            android:textColor="@color/black"
-            android:text="@string/rbAutoMode"
-            android:tag="2" />
-
-        <RadioButton
-            android:id="@+id/rbTestMode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:checked="false"
-            android:textColor="@color/black"
-            android:text="@string/rbTestMode"
-            android:tag="3" />
-
-        <RadioButton
-            android:id="@+id/rbPowerMeterMode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:checked="false"
-            android:textColor="@color/black"
-            android:text="@string/rbPowerMeterMode"
-            android:tag="4" />
-
-    </RadioGroup>
+    <Spinner
+        android:id="@+id/spinnerMode"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:dropDownWidth="300dp"
+        android:spinnerMode="dropdown"
+        android:theme="@style/SpinnerTheme"
+        android:background="@drawable/spinner_background"
+        app:layout_constraintLeft_toRightOf="@id/txtMode"
+        app:layout_constraintTop_toTopOf="@id/txtMode" />
 
     <TextView
         android:id="@+id/txtVendorCode"
@@ -410,7 +346,7 @@
 
     <EditText
         android:id="@+id/editVendorCode"
-        android:layout_width="240dp"
+        android:layout_width="310dp"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_edit_text_focus"
         android:textColor="#000000"
@@ -435,7 +371,7 @@
 
     <EditText
         android:id="@+id/editMid"
-        android:layout_width="240dp"
+        android:layout_width="310dp"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_edit_text_focus"
         android:textColor="#000000"
@@ -460,7 +396,7 @@
 
     <EditText
         android:id="@+id/editSerial"
-        android:layout_width="240dp"
+        android:layout_width="310dp"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_edit_text_focus"
         android:textColor="#000000"
@@ -485,7 +421,7 @@
 
     <EditText
         android:id="@+id/editFirmware"
-        android:layout_width="240dp"
+        android:layout_width="310dp"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_edit_text"
         android:textColor="#000000"
@@ -530,7 +466,7 @@
         app:backgroundTint="@null"
         android:layout_marginStart="7dp"
         android:textSize="18sp"
-        android:textColor="@color/black"
+        android:textColor="@color/primary"
         android:background="@drawable/selector_default_btn"
         app:layout_constraintTop_toTopOf="@id/editIccId"
         app:layout_constraintLeft_toRightOf="@id/editIccId" />
@@ -573,7 +509,7 @@
 
     <EditText
         android:id="@+id/editGpsX"
-        android:layout_width="90dp"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_edit_text"
         android:textColor="#000000"
@@ -589,14 +525,14 @@
 
     <EditText
         android:id="@+id/editGpsY"
-        android:layout_width="90dp"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_edit_text"
         android:textColor="#000000"
         android:inputType="text"
         android:maxLines="1"
         android:textSize="18sp"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="10dp"
         app:layout_constraintTop_toBottomOf="@id/editImsi"
         app:layout_constraintLeft_toRightOf="@id/editGpsX"
@@ -617,7 +553,7 @@
 
     <EditText
         android:id="@+id/editM2mTel"
-        android:layout_width="150dp"
+        android:layout_width="310dp"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_edit_text"
         android:textColor="#000000"
@@ -642,7 +578,7 @@
 
     <EditText
         android:id="@+id/editRfMaker"
-        android:layout_width="150dp"
+        android:layout_width="310dp"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_edit_text"
         android:textColor="#000000"
@@ -667,7 +603,7 @@
 
     <EditText
         android:id="@+id/editStatusNotificationDelay"
-        android:layout_width="150dp"
+        android:layout_width="310dp"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_edit_text"
         android:textColor="#000000"
@@ -693,7 +629,7 @@
 
     <EditText
         android:id="@+id/editTargetSoc"
-        android:layout_width="150dp"
+        android:layout_width="310dp"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_edit_text_focus"
         android:textColor="#000000"
@@ -719,7 +655,7 @@
 
     <EditText
         android:id="@+id/editTargetChargingTime"
-        android:layout_width="150dp"
+        android:layout_width="310dp"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_edit_text_focus"
         android:textColor="#000000"
@@ -758,14 +694,14 @@
         android:layout_width="240dp"
         android:layout_height="100dp"
         android:layout_marginStart="132dp"
-        android:layout_marginTop="560dp"
+        android:layout_marginBottom="30dp"
         android:text="@string/btnConfigSave"
         android:textSize="36sp"
         android:textColor="@color/white"
         android:background="@drawable/shape_btn_blue"
         app:backgroundTint="@null"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <Button
         android:id="@+id/btnConfigExit"

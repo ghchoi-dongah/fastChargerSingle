@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -79,6 +81,7 @@ public class ChargingFragment extends Fragment implements View.OnClickListener, 
     Button btnChargingStop;
     TextView txtOutVoltage, txtOutCurrent, txtOutPower, textViewRequestCurrentValue, textViewLimitSoc;
     CircularProgressIndicator progressCircular;
+    CardView cardViewPayment;
     Handler uiUpdateHandler;
     double powerUnitPrice = 0f;
     SharedModel sharedModel;
@@ -89,6 +92,7 @@ public class ChargingFragment extends Fragment implements View.OnClickListener, 
     DecimalFormat powerFormatter = new DecimalFormat("#,###,##0.00");
     DecimalFormat voltageFormatter = new DecimalFormat("#,###,##0.0");
     ZonedDateTimeConvert zonedDateTimeConvert = new ZonedDateTimeConvert();
+    ChargingCurrentData chargingCurrentData;
 
     TextView txtSoc;
 
@@ -125,6 +129,9 @@ public class ChargingFragment extends Fragment implements View.OnClickListener, 
         }
     }
 
+    @SuppressLint("SetTextI18n")
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @SuppressWarnings("ConstantConditions")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -144,6 +151,8 @@ public class ChargingFragment extends Fragment implements View.OnClickListener, 
         textViewRequestCurrentValue = view.findViewById(R.id.textViewRequestCurrentValue);
         progressCircular = view.findViewById(R.id.progressCircular);
         textViewLimitSoc = view.findViewById(R.id.textViewLimitSoc);
+        cardViewPayment = view.findViewById(R.id.cardView3);
+        chargingCurrentData = ((MainActivity) getActivity()).getChargingCurrentData();
         return view;
     }
 
@@ -159,6 +168,13 @@ public class ChargingFragment extends Fragment implements View.OnClickListener, 
             sharedModel = new ViewModelProvider(requireActivity()).get(SharedModel.class);
             requestStrings[0] = String.valueOf(mChannel);
             sharedModel.setMutableLiveData(requestStrings);
+
+            if (Objects.equals(chargingCurrentData.getPaymentType(), PaymentType.CREDIT)) {
+                cardViewPayment.setVisibility(View.VISIBLE);
+            } else {
+                cardViewPayment.setVisibility(View.INVISIBLE);
+            }
+
             try {
                 classUiProcess = ((MainActivity) MainActivity.mContext).getClassUiProcess(mChannel);
                 startTime = zonedDateTimeConvert.doStringDateToDate(((MainActivity) MainActivity.mContext).getChargingCurrentData().getChargingStartTime());

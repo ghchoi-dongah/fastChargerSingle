@@ -89,6 +89,8 @@
     <string name="chargingFinishWaitMessage"><font color="#000000">충전 종료 중</font></string>
     <string name="connectorDisconnectMessage"><font color="#000000">커넥터를 분리하여 정리해 주세요.</font></string>
     <string name="EVCheckMessage">차량과 통신 확인 중</string>
+    <string name="payMode">결제모드</string>
+    <string name="mode">인증모드</string>
 
     <string name="priceMessage"> 충전 금액 </string>
     <string name="payUnitMessage">원</string>

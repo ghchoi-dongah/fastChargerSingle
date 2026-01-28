@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -19,6 +20,7 @@ import com.dongah.fastcharger.R;
 import com.dongah.fastcharger.TECH3800.TLS3800;
 import com.dongah.fastcharger.basefunction.ChargingCurrentData;
 import com.dongah.fastcharger.basefunction.ClassUiProcess;
+import com.dongah.fastcharger.basefunction.PaymentType;
 import com.dongah.fastcharger.utils.SharedModel;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 
@@ -51,6 +53,7 @@ public class ChargingFinishFragment extends Fragment implements View.OnClickList
     Button btnStopConfirm;
     TextView txtPrepayment, txtPaymentReturn, txtActualPayment, txtChargeTime, txtAmountOfCharge, txtSoc;
     CircularProgressIndicator progressCircular;
+    CardView cardViewPayment;
 
     ClassUiProcess classUiProcess;
     ChargingCurrentData chargingCurrentData;
@@ -113,6 +116,7 @@ public class ChargingFinishFragment extends Fragment implements View.OnClickList
         btnStopConfirm = view.findViewById(R.id.btnStopConfirm);
         btnStopConfirm.setOnClickListener(this);
         progressCircular = view.findViewById(R.id.progressCircular);
+        cardViewPayment = view.findViewById(R.id.cardView2);
         return view;
     }
 
@@ -121,6 +125,12 @@ public class ChargingFinishFragment extends Fragment implements View.OnClickList
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         try {
+            if (Objects.equals(chargingCurrentData.getPaymentType(), PaymentType.CREDIT)) {
+                cardViewPayment.setVisibility(View.VISIBLE);
+            } else {
+                cardViewPayment.setVisibility(View.INVISIBLE);
+            }
+
             //unplug check 후 초기 화면
             progressCircular.isIndeterminate();
             uiCheckHandler = new Handler();
@@ -145,7 +155,7 @@ public class ChargingFinishFragment extends Fragment implements View.OnClickList
                     txtSoc.setText(((MainActivity) MainActivity.mContext).getChargingCurrentData().getSoc() + "%");
                     progressCircular.setProgress(((MainActivity) MainActivity.mContext).getChargingCurrentData().getSoc(), true);
                     txtPrepayment.setText(payFormatter.format(chargingCurrentData.getPrePayment()) + " 원");
-                    txtPaymentReturn.setText(payFormatter.format(chargingCurrentData.getPartialCancelPayment()) + " 원");
+                    txtPaymentReturn.setText("-" + payFormatter.format(chargingCurrentData.getPartialCancelPayment()) + " 원");
                     txtActualPayment.setText(payFormatter.format(chargingCurrentData.getPowerMeterUsePay()) + " 원");
                     txtChargeTime.setText(chargingCurrentData.getChargingUseTime());
                     txtAmountOfCharge.setText(powerFormatter.format(chargingCurrentData.getPowerMeterUse() * 0.01) + " kWh" );

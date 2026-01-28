@@ -7,85 +7,87 @@
     android:orientation="horizontal"
     tools:context=".pages.EnvironmentFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <Button
         android:id="@+id/btnConfig"
-        android:layout_width="250dp"
-        android:layout_height="200dp"
+        android:layout_width="420dp"
+        android:layout_height="160dp"
         android:text="@string/configButton"
         app:backgroundTint="@null"
-        android:layout_marginTop="100dp"
-        android:layout_marginStart="80dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="50dp"
         android:textSize="42sp"
-        android:textColor="@color/black"
-        android:background="@drawable/selector_default_btn"
+        android:textColor="@color/primary"
+        android:textStyle="bold"
+        android:background="@drawable/shape_btn_white_stroke_blue_rounded"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnWebSocket"
-        android:layout_width="250dp"
-        android:layout_height="200dp"
+        android:layout_width="420dp"
+        android:layout_height="160dp"
         android:text="@string/webSocketButton"
         app:backgroundTint="@null"
         android:layout_marginStart="40dp"
-        android:textSize="36sp"
-        android:textColor="@color/black"
-        android:background="@drawable/selector_default_btn"
+        android:textSize="42sp"
+        android:textColor="@color/primary"
+        android:textStyle="bold"
+        android:background="@drawable/shape_btn_white_stroke_blue_rounded"
         app:layout_constraintLeft_toRightOf="@id/btnConfig"
         app:layout_constraintTop_toTopOf="@id/btnConfig" />
 
     <Button
         android:id="@+id/btnControl"
-        android:layout_width="250dp"
-        android:layout_height="200dp"
+        android:layout_width="420dp"
+        android:layout_height="160dp"
         android:text="@string/controlButton"
+        android:textSize="42sp"
+        android:textColor="@color/primary"
+        android:textStyle="bold"
+        android:background="@drawable/shape_btn_white_stroke_blue_rounded"
         app:backgroundTint="@null"
-        android:layout_marginStart="40dp"
-        android:textSize="36sp"
-        android:textColor="@color/black"
-        android:background="@drawable/selector_default_btn"
-        app:layout_constraintLeft_toRightOf="@id/btnWebSocket"
-        app:layout_constraintTop_toTopOf="@id/btnWebSocket" />
+        app:layout_constraintLeft_toLeftOf="@id/btnConfig"
+        app:layout_constraintTop_toBottomOf="@id/btnConfig"
+        app:layout_constraintBottom_toTopOf="@id/btnUi"/>
 
     <Button
         android:id="@+id/btnUi"
-        android:layout_width="250dp"
-        android:layout_height="200dp"
+        android:layout_width="420dp"
+        android:layout_height="160dp"
         android:text="@string/uiButton"
-        app:backgroundTint="@null"
-        android:layout_marginTop="80dp"
+        android:layout_marginBottom="80dp"
         android:textSize="42sp"
-        android:textColor="@color/black"
-        android:background="@drawable/selector_default_btn"
+        android:textColor="@color/primary"
+        android:textStyle="bold"
+        android:background="@drawable/shape_btn_white_stroke_blue_rounded"
+        app:backgroundTint="@null"
         app:layout_constraintLeft_toLeftOf="@id/btnConfig"
-        app:layout_constraintTop_toBottomOf="@id/btnConfig" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <Button
         android:id="@+id/btnLoadTest"
-        android:layout_width="250dp"
-        android:layout_height="200dp"
+        android:layout_width="420dp"
+        android:layout_height="160dp"
         android:text="@string/loadTest"
-        app:backgroundTint="@null"
-        android:layout_marginStart="40dp"
         android:textSize="42sp"
-        android:textColor="@color/black"
-        android:background="@drawable/selector_default_btn"
-        app:layout_constraintLeft_toRightOf="@id/btnUi"
-        app:layout_constraintTop_toTopOf="@id/btnUi" />
+        android:textColor="@color/primary"
+        android:textStyle="bold"
+        android:background="@drawable/shape_btn_white_stroke_blue_rounded"
+        app:backgroundTint="@null"
+        app:layout_constraintLeft_toLeftOf="@id/btnWebSocket"
+        app:layout_constraintTop_toTopOf="@id/btnControl" />
 
     <Button
         android:id="@+id/btnExit"
-        android:layout_width="250dp"
-        android:layout_height="200dp"
+        android:layout_width="420dp"
+        android:layout_height="160dp"
         android:text="@string/exitButton"
         app:backgroundTint="@null"
-        android:textStyle="bold"
-        android:layout_marginStart="40dp"
         android:textSize="42sp"
-        android:textColor="@color/black"
-        android:background="@drawable/selector_default_btn"
-        app:layout_constraintLeft_toRightOf="@id/btnLoadTest"
-        app:layout_constraintTop_toTopOf="@id/btnLoadTest" />
+        android:textColor="@color/primary"
+        android:textStyle="bold"
+        android:background="@drawable/shape_btn_white_stroke_blue_rounded"
+        app:layout_constraintLeft_toLeftOf="@id/btnLoadTest"
+        app:layout_constraintTop_toTopOf="@id/btnUi" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

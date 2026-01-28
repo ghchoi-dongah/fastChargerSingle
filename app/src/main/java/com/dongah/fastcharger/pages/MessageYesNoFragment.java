@@ -48,8 +48,6 @@ public class MessageYesNoFragment extends Fragment implements View.OnClickListen
     TextView txtMessage;
     Button btnCancel, btnConfirm;
     AVLoadingIndicatorView avi;
-//    ImageView imgStopWait;
-//    ObjectAnimator object;
 
     public MessageYesNoFragment() {
         // Required empty public constructor
@@ -93,7 +91,6 @@ public class MessageYesNoFragment extends Fragment implements View.OnClickListen
         btnConfirm = view.findViewById(R.id.btnConfirm);
         btnConfirm.setOnClickListener(this);
         avi = view.findViewById(R.id.avi);
-//        imgStopWait = view.findViewById(R.id.imgStopWait);
         return view;
     }
 
@@ -118,14 +115,8 @@ public class MessageYesNoFragment extends Fragment implements View.OnClickListen
                 ((MainActivity) getActivity()).getControlBoard().getTxData(mChannel).setStop(true);
                 ((MainActivity) getActivity()).getControlBoard().getTxData(mChannel).setStart(false);
                 txtMessage.setText(R.string.chargingFinishWaitMessage);
-//                imgStopWait.setVisibility(View.VISIBLE);
                 btnConfirm.setVisibility(View.INVISIBLE);
                 btnCancel.setVisibility(View.INVISIBLE);
-//                object = ObjectAnimator.ofFloat(imgStopWait, "Alpha", 1.0f, 0.2f);
-//                object.setInterpolator(new LinearInterpolator());
-//                object.setDuration(1500);
-//                object.setRepeatCount(ValueAnimator.INFINITE);
-//                object.start();
 
                 avi.setVisibility(View.VISIBLE);
                 startAviAnim();
@@ -149,9 +140,5 @@ public class MessageYesNoFragment extends Fragment implements View.OnClickListen
     public void onDetach() {
         super.onDetach();
         stopAviAnim();
-//        if (object != null) {
-//            object.cancel();
-//            object = null;
-//        }
     }
 }

@@ -192,7 +192,6 @@ public class MainActivity extends AppCompatActivity {
         imgNetwork = findViewById(R.id.imgNetwork);
         textViewTime = findViewById(R.id.textViewTime);
         textViewVersionValue = findViewById(R.id.textViewVersionValue);
-        textViewVersionValue.setText("VER-" + GlobalVariables.VERSION + " | ");
 
         fragmentCurrent = new FragmentCurrent();
 
@@ -205,6 +204,8 @@ public class MainActivity extends AppCompatActivity {
         // 1. charger configuration, ConfigurationKey read */
         chargerConfiguration = new ChargerConfiguration();
         chargerConfiguration.onLoadConfiguration();
+//        textViewVersionValue.setText("VER-DEVS " + chargerConfiguration.getFirmwareVersion() + " | ");
+        textViewVersionValue.setText("VER-" + GlobalVariables.getVERSION() + " | ");
 
         // 2. fragment change management */
         fragmentChange = new FragmentChange();

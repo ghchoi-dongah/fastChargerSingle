@@ -64,8 +64,8 @@ public class ConfigSettingFragment extends Fragment implements View.OnClickListe
     SharedModel sharedModel;
     String[] requestStrings = new String[1];
     InputMethodManager imm;
-    Spinner spChargerType, spChargerModel;
-    int spPosition = 0, spChargerModelCode = 0;
+    Spinner spChargerType, spChargerModel, spPayMode, spMode;
+    int spPosition = 0, spChargerModelCode = 0, spPayModePos = 0, spModePos = 0;
     EditText editChargerId;
     EditText editServerUrl, editPort, editHttpURL ;
     EditText editControlPort, editRfPort, editCreditPort;
@@ -74,9 +74,6 @@ public class ConfigSettingFragment extends Fragment implements View.OnClickListe
     EditText editIccId, editImsi, editGpsX, editGpsY, editM2mTel;
     EditText editStatusNotificationDelay, editTargetSoc, editTargetChargingTime;
     Button btnKeyBoard, btnSave, btnExit, btnPowerOff;
-    RadioGroup rgPayment, rgMode;
-    RadioButton rbServer, rbAutoMode, rbTest, rbPowerMeter;
-    RadioButton rbMemberCredit, rbMember, rbCredit;
     TextView txtTestPrice;
     CheckBox chkStopConfirm, chkCurrentTest, chkSigned;
 
@@ -128,21 +125,8 @@ public class ConfigSettingFragment extends Fragment implements View.OnClickListe
             btnExit.setOnClickListener(this);
             btnPowerOff = view.findViewById(R.id.btnPowerOff);
             btnPowerOff.setOnClickListener(this);
-
-            rbServer = view.findViewById(R.id.rbServerMode);
-            rbServer.setOnClickListener(this);
-            rbAutoMode = view.findViewById(R.id.rbAutoMode);
-            rbAutoMode.setOnClickListener(this);
-            rbTest = view.findViewById(R.id.rbTestMode);
-            rbTest.setOnClickListener(this);
-            rbPowerMeter = view.findViewById(R.id.rbPowerMeterMode);
-            rbPowerMeter.setOnClickListener(this);
-            rbMemberCredit = view.findViewById(R.id.rbMemberCredit);
-            rbMemberCredit.setOnClickListener(this);
-            rbMember = view.findViewById(R.id.rbMember);
-            rbMember.setOnClickListener(this);
-            rbCredit = view.findViewById(R.id.rbCredit);
-            rbCredit.setOnClickListener(this);
+            
+            // chargerType
             spChargerType = view.findViewById(R.id.spinnerChargerType);
             ArrayAdapter<CharSequence> chargerTypeAdapter = ArrayAdapter.createFromResource(MainActivity.mContext, R.array.chargerType, R.layout.spinner_item);
             chargerTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -159,6 +143,7 @@ public class ConfigSettingFragment extends Fragment implements View.OnClickListe
                 public void onNothingSelected(AdapterView<?> parent) {
                 }
             });
+            
             //** spChargerModel  ==> 0: DEVS100D12 */
             spChargerModel = view.findViewById(R.id.spinnerChargerModel);
             ArrayAdapter<CharSequence> mcuTypeAdapter = ArrayAdapter.createFromResource(MainActivity.mContext, R.array.chargerModel, R.layout.spinner_item);
@@ -173,6 +158,45 @@ public class ConfigSettingFragment extends Fragment implements View.OnClickListe
                     chargerConfiguration.setChargerPointModel(chargerModel[position]);
                     chargerConfiguration.setChargerPointModelCode(position);
                     spChargerModelCode = position;
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+            
+            // 결제모드
+            spPayMode = view.findViewById(R.id.spinnerPayment);
+            ArrayAdapter<CharSequence> paymentAdapter = ArrayAdapter.createFromResource(MainActivity.mContext, R.array.payMode, R.layout.spinner_item);
+            paymentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spPayMode.setAdapter(paymentAdapter);
+            spPayMode.setSelection(Integer.parseInt(chargerConfiguration.getSelectPayment()));
+            spPayMode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    spPayModePos = position;
+                    chargerConfiguration.setSelectPayment(String.valueOf(position));
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
+            // 인증모드
+            spMode = view.findViewById(R.id.spinnerMode);
+            ArrayAdapter<CharSequence> modeAdapter = ArrayAdapter.createFromResource(MainActivity.mContext, R.array.mode, R.layout.spinner_item);
+            modeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spMode.setAdapter(modeAdapter);
+            spMode.setSelection(Integer.parseInt(chargerConfiguration.getAuthMode()));
+            spMode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    spModePos = position;
+                    chargerConfiguration.setAuthMode(String.valueOf(position));
                 }
 
                 @Override
@@ -203,6 +227,9 @@ public class ConfigSettingFragment extends Fragment implements View.OnClickListe
         try {
             spPosition = chargerConfiguration.getChargerType();
             spChargerModelCode = chargerConfiguration.getChargerPointModelCode();
+            spPayModePos = Integer.parseInt(chargerConfiguration.getSelectPayment());
+            spModePos = Integer.parseInt(chargerConfiguration.getAuthMode());
+
             editChargerId = v.findViewById(R.id.editChargerId);
             editChargerId.setText(chargerConfiguration.getChargerId());
             editHttpURL = v.findViewById(R.id.editHttpURL);
@@ -251,36 +278,7 @@ public class ConfigSettingFragment extends Fragment implements View.OnClickListe
             editTargetChargingTime = v.findViewById(R.id.editTargetChargingTime);
             editTargetChargingTime.setText(String.valueOf(chargerConfiguration.getTargetChargingTime()));       //분 단위 데이터
 
-            rgPayment = v.findViewById(R.id.radioGrpPayment);
-            rgMode = v.findViewById(R.id.radioGrpModeSelect);
             try {
-                // 0:credit + member   1:member*/
-                switch (Integer.parseInt(chargerConfiguration.getSelectPayment())) {
-                    case 0:
-                        rbMemberCredit.setChecked(true);
-                        break;
-                    case 1:
-                        rbMember.setChecked(true);
-                        break;
-                    case 2:
-                        rbCredit.setChecked(true);
-                        break;
-                }
-                // 0:서버 1:로컬 2:자동 3:테스트 4: 계량기 테스트 */
-                switch (Integer.parseInt(chargerConfiguration.getAuthMode())) {
-                    case 0:
-                        rbServer.setChecked(true);
-                        break;
-                    case 2:
-                        rbAutoMode.setChecked(true);
-                        break;
-                    case 3:
-                        rbTest.setChecked(true);
-                        break;
-                    case 4:
-                        rbPowerMeter.setChecked(true);
-                        break;
-                }
                 //stop confirm
                 chkStopConfirm = v.findViewById(R.id.chkStopConfirm);
                 chkStopConfirm.setChecked(chargerConfiguration.isStopConfirm());
@@ -306,33 +304,9 @@ public class ConfigSettingFragment extends Fragment implements View.OnClickListe
             } catch (Exception e) {
                 logger.error(" config - onClick {}", e.getMessage());
             }
-        } else if (Objects.equals(v.getId(), R.id.rbMemberCredit)) {
-            chargerConfiguration.setSelectPayment("0");
-        } else if (Objects.equals(v.getId(), R.id.rbMember)) {
-            chargerConfiguration.setSelectPayment("1");
-        } else if (Objects.equals(v.getId(), R.id.rbCredit)) {
-            chargerConfiguration.setSelectPayment("2");
-        } else if (Objects.equals(v.getId(), R.id.rbTestMode)) {
-            chargerConfiguration.setAuthMode("3");
-            txtTestPrice.setVisibility(View.VISIBLE);
-            editTestPrice.setVisibility(View.VISIBLE);
-            onTestModeSetting(3);
-        } else if (Objects.equals(v.getId(), R.id.rbAutoMode)) {
-            chargerConfiguration.setAuthMode("2");
-            txtTestPrice.setVisibility(View.VISIBLE);
-            editTestPrice.setVisibility(View.VISIBLE);
-            onTestModeSetting(0);
-        } else if (Objects.equals(v.getId(), R.id.rbServerMode)) {
-            chargerConfiguration.setAuthMode("0");
-            txtTestPrice.setVisibility(View.INVISIBLE);
-            editTestPrice.setVisibility(View.INVISIBLE);
-            onTestModeSetting(0);
-        } else if (Objects.equals(v.getId(), R.id.rbPowerMeterMode)) {
-            chargerConfiguration.setAuthMode("4");
-            txtTestPrice.setVisibility(View.INVISIBLE);
-            editTestPrice.setVisibility(View.INVISIBLE);
-            onTestModeSetting(0);
-        } else if (Objects.equals(v.getId(), R.id.btnConfigSave)) {
+        }
+
+        else if (Objects.equals(v.getId(), R.id.btnConfigSave)) {
             if (TextUtils.isEmpty(editSerial.getText().toString()) && TextUtils.isEmpty(editM2mTel.getText().toString())) {
                 if (TextUtils.isEmpty(editSerial.getText().toString())) {
                     editSerial.setFocusableInTouchMode(true);
@@ -446,25 +420,10 @@ public class ConfigSettingFragment extends Fragment implements View.OnClickListe
             chargerConfiguration.setStatusNotificationDelay(Integer.parseInt(editStatusNotificationDelay.getText().toString()));
             chargerConfiguration.setTargetSoc(Integer.parseInt(editTargetSoc.getText().toString()));
             chargerConfiguration.setTargetChargingTime(Integer.parseInt(editTargetChargingTime.getText().toString()));
-            //0:credit + member   1:member  2:credit
-            if (rbMemberCredit.isChecked())
-                chargerConfiguration.setSelectPayment("0");
-            else if (rbMember.isChecked())
-                chargerConfiguration.setSelectPayment("1");
-            else if (rbCredit.isChecked())
-                chargerConfiguration.setSelectPayment("2");
-            //** 0:서버 1:로컬 2:자동 3:테스트 4:PowerMeter 테스트*/
-            if (rbTest.isChecked()) {
-                chargerConfiguration.setAuthMode("3");
-//                ((MainActivity) MainActivity.mContext).getControlBoard().getTxData(0).setTestMode((short) 3);
-//                ((MainActivity) MainActivity.mContext).getControlBoard().getTxData(1).setTestMode((short) 3);
-            } else {
-//                ((MainActivity) MainActivity.mContext).getControlBoard().getTxData(0).setTestMode((short) 0);
-//                ((MainActivity) MainActivity.mContext).getControlBoard().getTxData(1).setTestMode((short) 0);
-                if (rbServer.isChecked()) chargerConfiguration.setAuthMode("0");
-                else if (rbAutoMode.isChecked()) chargerConfiguration.setAuthMode("2");
-                else if (rbPowerMeter.isChecked()) chargerConfiguration.setAuthMode("4");
-            }
+
+            chargerConfiguration.setSelectPayment(String.valueOf(spPayModePos));
+            chargerConfiguration.setAuthMode(String.valueOf(spModePos));
+
             chargerConfiguration.setStopConfirm(chkStopConfirm.isChecked());
             chargerConfiguration.setSigned(chkSigned.isChecked());
         } catch (Exception e) {
