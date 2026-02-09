@@ -6,22 +6,6 @@
     android:layout_height="676dp"
     tools:context=".pages.InitFragment">
 
-<!--    <androidx.appcompat.widget.LinearLayoutCompat-->
-<!--        android:id="@+id/linearLayout"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent">-->
-
-<!--        <ImageView-->
-<!--            android:id="@+id/bgCheck"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:background="@drawable/img_check"-->
-<!--            android:clickable="false"-->
-<!--            android:visibility="invisible"-->
-<!--            tools:ignore="ContentDescription" />-->
-<!--    </androidx.appcompat.widget.LinearLayoutCompat>-->
-
-
     <View
         android:id="@+id/viewCircle"
         android:layout_width="480dp"

@@ -103,7 +103,7 @@ public class CreditCardInsertFragment extends Fragment implements View.OnClickLi
         txtInputAmt = view.findViewById(R.id.txtInputAmt);
 //        txtInputAmt.setText(payFormatter.format(classUiProcess.getChargingCurrentData().getPrePayment()));
         creditInsert = view.findViewById(R.id.creditInsert);
-        creditInsert.setBackgroundResource(R.drawable.ani_credit_wait);
+        creditInsert.setBackgroundResource(R.drawable.creditcardtagging);
         animationDrawable = (AnimationDrawable) creditInsert.getBackground();
         animationDrawable.start();
         creditInsert.setOnClickListener(this);
@@ -131,8 +131,6 @@ public class CreditCardInsertFragment extends Fragment implements View.OnClickLi
 //        countHandler.removeCallbacks(countRunnable);
 //        countHandler.removeCallbacksAndMessages(null);
 //        countHandler.removeMessages(0);
-//        object.cancel();
-//        object = null;
         //image check
         requestStrings[0] = String.valueOf(mChannel);
         sharedModel.setMutableLiveData(requestStrings);

@@ -90,14 +90,25 @@
         app:layout_constraintTop_toBottomOf="@id/txtPay" />
 
     <ImageView
+        android:id="@+id/imageViewCreditCardBackground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_marginStart="80dp"
+        android:background="@drawable/card_to_reader_background"
+        app:layout_constraintLeft_toLeftOf="@id/txtPay"
+        app:layout_constraintTop_toBottomOf="@id/txtInputAmt"
+        tools:ignore="contentDescription" />
+
+    <ImageView
         android:id="@+id/creditInsert"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/credit_card_insert01"
-        android:layout_marginTop="60dp"
-        android:layout_marginStart="80dp"
-        app:layout_constraintLeft_toLeftOf="@id/txtPay"
-        app:layout_constraintTop_toBottomOf="@id/txtInputAmt"
+        android:background="@drawable/creditcardtagging"
+        app:layout_constraintTop_toTopOf="@id/imageViewCreditCardBackground"
+        app:layout_constraintStart_toStartOf="@id/imageViewCreditCardBackground"
+        app:layout_constraintEnd_toEndOf="@id/imageViewCreditCardBackground"
+        app:layout_constraintBottom_toBottomOf="@id/imageViewCreditCardBackground"
         tools:ignore="ContentDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -44,13 +44,12 @@
         app:layout_constraintTop_toTopOf="@id/imageViewMemberFailed"
         tools:ignore="contentDescription"/>
 
-    <com.wang.avi.AVLoadingIndicatorView
-        android:id="@+id/avi"
-        android:layout_width="220dp"
-        android:layout_height="220dp"
-        android:visibility="visible"
-        app:indicatorName="BallSpinFadeLoaderIndicator"
-        app:indicatorColor="@color/primary"
+    <ImageView
+        android:id="@+id/imageViewLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ani_loading"
+        android:importantForAccessibility="no"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -67,8 +66,8 @@
         android:textColor="@color/primary"
         android:background="@drawable/selector_default_btn"
         app:backgroundTint="@null"
-        app:layout_constraintLeft_toLeftOf="@id/avi"
-        app:layout_constraintRight_toRightOf="@id/avi"
-        app:layout_constraintTop_toBottomOf="@id/avi" />
+        app:layout_constraintLeft_toLeftOf="@id/imageViewLoading"
+        app:layout_constraintRight_toRightOf="@id/imageViewLoading"
+        app:layout_constraintTop_toBottomOf="@id/imageViewLoading" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

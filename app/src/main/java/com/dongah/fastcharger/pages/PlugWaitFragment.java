@@ -1,6 +1,7 @@
 package com.dongah.fastcharger.pages;
 
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -53,7 +54,8 @@ public class PlugWaitFragment extends Fragment {
 
     int cnt = 0;
     TextView txtMessage;
-    AVLoadingIndicatorView avi;
+    ImageView imageViewLoading;
+    AnimationDrawable animationDrawable;
 
     RxData rxData;
     Handler countHandler;
@@ -100,7 +102,9 @@ public class PlugWaitFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_plug_wait, container, false);
         txtMessage = view.findViewById(R.id.txtMessage);
-        avi = view.findViewById(R.id.avi);
+        imageViewLoading = view.findViewById(R.id.imageViewLoading);
+        imageViewLoading.setBackgroundResource(R.drawable.ani_loading);
+        animationDrawable = (AnimationDrawable) imageViewLoading.getBackground();
         chargerConfiguration = ((MainActivity) MainActivity.mContext).getChargerConfiguration();
         chargingCurrentData = ((MainActivity) MainActivity.mContext).getChargingCurrentData();
         return view;
@@ -111,7 +115,7 @@ public class PlugWaitFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         try {
-            startAviAnim();
+            animationDrawable.start();
             cnt = 0;
             rxData = ((MainActivity) getActivity()).getControlBoard().getRxData(mChannel);
             sharedModel = new ViewModelProvider(requireActivity()).get(SharedModel.class);
@@ -159,7 +163,10 @@ public class PlugWaitFragment extends Fragment {
                             //connecting wait
                             if (rxData.isCsPilot()) {
                                 cnt = 0;
-                                txtMessage.setText(R.string.EVCheckMessage);
+                                if (txtMessage.getTag() == null || !(boolean) txtMessage.getTag()) {
+                                    txtMessage.setText(R.string.EVCheckMessage);
+                                    txtMessage.setTag(true);
+                                }
                             }
                         }
                     };
@@ -172,20 +179,30 @@ public class PlugWaitFragment extends Fragment {
         }
     }
 
-    void startAviAnim() {
-        avi.show();
-    }
+    @Override
+    public void onDestroyView() {
+        try {
+            if (animationDrawable != null) {
+                animationDrawable.stop();
+            }
 
-    void stopAviAnim() {
-        avi.hide();
+            if (imageViewLoading != null) {
+                Drawable bg = imageViewLoading.getBackground();
+                if (bg instanceof AnimationDrawable) {
+                    ((AnimationDrawable) bg).stop();
+                }
+                imageViewLoading.setBackground(null);
+            }
+        } catch (Exception e) {
+            logger.error("PlugWaitFragment onDestroyView : {} ", e.getMessage());
+        }
+        super.onDestroyView();
     }
-
 
     @Override
     public void onDetach() {
         super.onDetach();
         try {
-            stopAviAnim();
             requestStrings[0] = String.valueOf(mChannel);
             sharedModel.setMutableLiveData(requestStrings);
             if (countHandler != null) {

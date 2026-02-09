@@ -6,7 +6,6 @@
     android:layout_height="676dp"
     tools:context=".pages.QrFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <ImageView
         android:id="@+id/imgQrCode"
         android:layout_width="350dp"

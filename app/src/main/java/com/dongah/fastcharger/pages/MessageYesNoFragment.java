@@ -2,6 +2,8 @@ package com.dongah.fastcharger.pages;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,8 +48,9 @@ public class MessageYesNoFragment extends Fragment implements View.OnClickListen
     private int mChannel;
 
     TextView txtMessage;
+    ImageView imageViewLoading;
+    AnimationDrawable animationDrawable;
     Button btnCancel, btnConfirm;
-    AVLoadingIndicatorView avi;
 
     public MessageYesNoFragment() {
         // Required empty public constructor
@@ -90,7 +93,9 @@ public class MessageYesNoFragment extends Fragment implements View.OnClickListen
         btnCancel.setOnClickListener(this);
         btnConfirm = view.findViewById(R.id.btnConfirm);
         btnConfirm.setOnClickListener(this);
-        avi = view.findViewById(R.id.avi);
+        imageViewLoading = view.findViewById(R.id.imageViewLoading);
+        imageViewLoading.setBackgroundResource(R.drawable.ani_loading);
+        animationDrawable = (AnimationDrawable) imageViewLoading.getBackground();
         return view;
     }
 
@@ -117,9 +122,8 @@ public class MessageYesNoFragment extends Fragment implements View.OnClickListen
                 txtMessage.setText(R.string.chargingFinishWaitMessage);
                 btnConfirm.setVisibility(View.INVISIBLE);
                 btnCancel.setVisibility(View.INVISIBLE);
-
-                avi.setVisibility(View.VISIBLE);
-                startAviAnim();
+                imageViewLoading.setVisibility(View.VISIBLE);
+                animationDrawable.start();
             }
 
         } catch (Exception e) {
@@ -127,18 +131,29 @@ public class MessageYesNoFragment extends Fragment implements View.OnClickListen
         }
     }
 
-    void startAviAnim() {
-        avi.show();
-    }
+    @Override
+    public void onDestroyView() {
+        try {
+            if (animationDrawable != null) {
+                animationDrawable.stop();
+            }
 
-    void stopAviAnim() {
-        avi.hide();
+            if (imageViewLoading != null) {
+                Drawable bg = imageViewLoading.getBackground();
+                if (bg instanceof AnimationDrawable) {
+                    ((AnimationDrawable) bg).stop();
+                }
+                imageViewLoading.setBackground(null);
+            }
+        } catch (Exception e) {
+            logger.error("MessageYesNoFragment onDestroyView : {} ", e.getMessage());
+        }
+        super.onDestroyView();
     }
 
 
     @Override
     public void onDetach() {
         super.onDetach();
-        stopAviAnim();
     }
 }

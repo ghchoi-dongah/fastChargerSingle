@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -64,9 +65,9 @@ public class MemberCardWaitFragment extends Fragment {
 
     int cnt = 0;
     Button btnConfirm;
-    AVLoadingIndicatorView avi;
-    ImageView imageViewMemberFailed;
     TextView textView, textViewFailed;
+    ImageView imageViewLoading, imageViewMemberFailed;
+    AnimationDrawable animationDrawable;
     ObjectAnimator fadeAnimator;
 
     Handler countHandler;
@@ -117,8 +118,9 @@ public class MemberCardWaitFragment extends Fragment {
         requestStrings = new String[1];
         btnConfirm = view.findViewById(R.id.btnConfirm);
         textView = view.findViewById(R.id.txtMemberWaiting);
-
-        avi = view.findViewById(R.id.avi);
+        imageViewLoading = view.findViewById(R.id.imageViewLoading);
+        imageViewLoading.setBackgroundResource(R.drawable.ani_loading);
+        animationDrawable = (AnimationDrawable) imageViewLoading.getBackground();
         textViewFailed = view.findViewById(R.id.textViewFailed);
         imageViewMemberFailed = view.findViewById(R.id.imageViewMemberFailed);
 
@@ -137,7 +139,7 @@ public class MemberCardWaitFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         try {
-            startAviAnim();
+            animationDrawable.start();
             chargerConfiguration = ((MainActivity) MainActivity.mContext).getChargerConfiguration();
             classUiProcess = ((MainActivity) MainActivity.mContext).getClassUiProcess(mChannel);
             chargingCurrentData = ((MainActivity) MainActivity.mContext).getChargingCurrentData();
@@ -163,11 +165,11 @@ public class MemberCardWaitFragment extends Fragment {
                             //authorize result check
                             if (!chargingCurrentData.isAuthorizeResult()) {
                                 textView.setText(getResources().getText(R.string.txtMemberFail));
-                                avi.setVisibility(View.INVISIBLE);
+                                imageViewLoading.setVisibility(View.INVISIBLE);
+                                animationDrawable.stop();
                                 textViewFailed.setVisibility(View.VISIBLE);
                                 imageViewMemberFailed.setVisibility(View.VISIBLE);
                                 btnConfirm.setVisibility(View.VISIBLE);
-                                stopAviAnim();
                             }
                         }
                     };
@@ -313,19 +315,30 @@ public class MemberCardWaitFragment extends Fragment {
         }
     }
 
-    void startAviAnim() {
-        avi.show();
-    }
+    @Override
+    public void onDestroyView() {
+        try {
+            if (animationDrawable != null) {
+                animationDrawable.stop();
+            }
 
-    void stopAviAnim() {
-        avi.hide();
+            if (imageViewLoading != null) {
+                Drawable bg = imageViewLoading.getBackground();
+                if (bg instanceof AnimationDrawable) {
+                    ((AnimationDrawable) bg).stop();
+                }
+                imageViewLoading.setBackground(null);
+            }
+        } catch (Exception e) {
+            logger.error("MemberCardWaitFragment onDestroyView : {} ", e.getMessage());
+        }
+        super.onDestroyView();
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         try {
-            stopAviAnim();
             if (countHandler != null) {
                 countHandler.removeCallbacks(countRunnable);
                 countHandler.removeCallbacksAndMessages(null);
