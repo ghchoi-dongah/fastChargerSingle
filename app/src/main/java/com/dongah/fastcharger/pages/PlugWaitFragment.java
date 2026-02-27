@@ -21,6 +21,7 @@ import com.dongah.fastcharger.TECH3800.TLS3800;
 import com.dongah.fastcharger.basefunction.ChargerConfiguration;
 import com.dongah.fastcharger.basefunction.ChargingCurrentData;
 import com.dongah.fastcharger.basefunction.GlobalVariables;
+import com.dongah.fastcharger.basefunction.UiSeq;
 import com.dongah.fastcharger.controlboard.RxData;
 import com.dongah.fastcharger.utils.SharedModel;
 import com.dongah.fastcharger.websocket.ocpp.core.ChargePointErrorCode;
@@ -155,7 +156,9 @@ public class PlugWaitFragment extends Fragment {
                                                     null,
                                                     false));
                                 }
-                                ((MainActivity) MainActivity.mContext).getClassUiProcess(mChannel).onHome();
+                                ((MainActivity) MainActivity.mContext).getClassUiProcess(mChannel).setUiSeq(UiSeq.PLUG_DISCONNECT);
+                                ((MainActivity) getActivity()).getFragmentChange().onFragmentChange(mChannel, UiSeq.PLUG_DISCONNECT, "PLUG_DISCONNECT", null);
+
                             } else {
                                 countHandler.postDelayed(countRunnable, 1000);
                             }
@@ -174,7 +177,8 @@ public class PlugWaitFragment extends Fragment {
                 }
             });
         } catch (Exception e) {
-            ((MainActivity) MainActivity.mContext).getClassUiProcess(mChannel).onHome();
+            ((MainActivity) MainActivity.mContext).getClassUiProcess(mChannel).setUiSeq(UiSeq.PLUG_DISCONNECT);
+            ((MainActivity) getActivity()).getFragmentChange().onFragmentChange(mChannel, UiSeq.PLUG_DISCONNECT, "PLUG_DISCONNECT", null);
             logger.error("PlugWaitFragment onViewCreated : {}", e.getMessage());
         }
     }

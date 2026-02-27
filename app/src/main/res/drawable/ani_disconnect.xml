@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/disconnect1" android:duration="200" />
+    <item android:drawable="@drawable/disconnect2" android:duration="200" />
+    <item android:drawable="@drawable/disconnect3" android:duration="200" />
+    <item android:drawable="@drawable/disconnect4" android:duration="200" />
+    <item android:drawable="@drawable/disconnect5" android:duration="200" />
+    <item android:drawable="@drawable/disconnect6" android:duration="200" />
+    <item android:drawable="@drawable/disconnect7" android:duration="200" />
+    <item android:drawable="@drawable/disconnect8" android:duration="200" />
+    <item android:drawable="@drawable/disconnect9" android:duration="200" />
+    <item android:drawable="@drawable/disconnect10" android:duration="200" />
+    <item android:drawable="@drawable/disconnect11" android:duration="200" />
+    <item android:drawable="@drawable/disconnect12" android:duration="200" />
+</animation-list>

@@ -197,6 +197,7 @@ public class ClassUiProcess implements TLS3800Listener {
                 case MEMBER_CARD_WAIT:
                 case CREDIT_CARD:
                 case CREDIT_CARD_WAIT:
+                case PLUG_DISCONNECT:
                     break;
                 case PLUG_CHECK:
                     if (rxData.isCsPilot()) {

@@ -122,6 +122,8 @@
     <string name="txtMemberWaiting">회원 확인 중</string>
     <string name="stopMessage"><font color='#000000'>충전을 종료하시겠습니까?</font> </string>
     <string name="couplerMessage">차량에 커넥터 연결 시 충전 시작</string>
+    <string name="disconnectMessage">차량과 통신 실패</string>
+    <string name="disconnectMessageSub">커넥터를 제거해 주세요</string>
     <string name="smsMessage"><font color="#2E4298">충전 정보</font>를 수신할 <font color="#2E4298">전화번호</font>를 입력해주세요.</string>
     <string name="btn_0"><font color="#FF000000">0</font></string>
     <string name="btn_1"><font color="#FF000000">1</font></string>
@@ -150,5 +152,7 @@
     <string name="txtStopConfirm"> OCPP Mode</string>
     <string name="txtSigned"> Signed(WSS/WS)</string>
     <string name="txtCurrentTest">전력량계 테스트</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

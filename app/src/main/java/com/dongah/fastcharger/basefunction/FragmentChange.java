@@ -27,6 +27,7 @@ import com.dongah.fastcharger.pages.InitFragment;
 import com.dongah.fastcharger.pages.MemberCardFragment;
 import com.dongah.fastcharger.pages.MemberCardWaitFragment;
 import com.dongah.fastcharger.pages.MessageYesNoFragment;
+import com.dongah.fastcharger.pages.PlugDisconnectFragment;
 import com.dongah.fastcharger.pages.PlugWaitFragment;
 import com.dongah.fastcharger.pages.QrFragment;
 import com.dongah.fastcharger.pages.SmsFragment;
@@ -124,6 +125,16 @@ public class FragmentChange {
                     transaction.commit();
                 } catch (Exception e) {
                     logger.error("onFragmentChange error : PLUG_CHECK {}", e.getMessage());
+                }
+                break;
+            case PLUG_DISCONNECT:
+                try {
+                    PlugDisconnectFragment plugDisconnectFragment = new PlugDisconnectFragment();
+                    transaction.replace(frameLayoutId, plugDisconnectFragment, "PLUG_DISCONNECT");
+                    plugDisconnectFragment.setArguments(bundle);
+                    transaction.commit();
+                } catch (Exception e) {
+                    logger.error("onFragmentChange error : PLUG_DISCONNECT {}", e.getMessage());
                 }
                 break;
             case CHARGING:

@@ -17,7 +17,7 @@ public enum UiSeq {
     FAULT(13),
     FINISH_WAIT(14),
     FINISH(15),
-    CHANGE_MODE(16),
+    PLUG_DISCONNECT(16),
     SMS(17),
     ADMIN_PASS(18),
     MESSAGE(19),
@@ -29,7 +29,8 @@ public enum UiSeq {
     WEB_SOCKET(25),
     LOAD_TEST(26),
     LOAD_TEST_TOTAL(27),
-    LOAD_TEST_IO(28);
+    LOAD_TEST_IO(28),
+    CHANGE_MODE(29);
 
     private final int value;
 
