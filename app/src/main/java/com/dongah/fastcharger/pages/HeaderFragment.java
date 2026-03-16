@@ -142,6 +142,7 @@ public class HeaderFragment extends Fragment implements View.OnClickListener {
                         case CREDIT_CARD_WAIT:
                         case CHARGING:
                         case CONNECT_CHECK:
+                        case PLUG_CHECK:
                         case FAULT:
                         case CONFIG_SETTING:
                         case REBOOTING:
